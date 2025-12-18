@@ -1,5 +1,7 @@
 # README
 
+📖 Read the book: [Functional Programming in Java](https://sisiodos.github.io/fpinjava/)
+
 This repository accompanies the book *Functional Programming in Java*.
 
 It is not a library nor a framework.
