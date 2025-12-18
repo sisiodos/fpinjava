@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 05 — IO and Effect Suspension - Functional Programming in Java</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Functional Programming in Java</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sisiodos/fpinjava" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-05--io-and-effect-suspension"><a class="header" href="#chapter-05--io-and-effect-suspension">Chapter 05 — IO and Effect Suspension</a></h1>
+<p>Modern Java (particularly Java 21) offers enough expressive power to encode the essential FP effect patterns—IO, Reader, and Writer—without significant friction.<br />
+Records, lambdas, and pattern matching collectively allow these constructs to be implemented in a direct and readable manner.<br />
+This chapter examines how these effect abstractions work, why they matter, and how Java can express them cleanly.</p>
+<h2 id="51-why-effects-must-be-suspended"><a class="header" href="#51-why-effects-must-be-suspended">5.1 Why effects must be suspended</a></h2>
+<p>A pure function always returns the same value for the same input.<br />
+Side effects—printing to the console, reading a file, mutating state—break this property because they depend on <em>time</em> and <em>context</em>.</p>
+<p>FP does not forbid effects. Instead, it enforces <em>discipline</em>:</p>
+<ul>
+<li>effects must be <strong>described</strong>, not executed immediately</li>
+<li>effects must be <strong>composed</strong> before execution</li>
+<li>effects must have <strong>one well-defined execution point</strong></li>
+</ul>
+<p>With IO, effects become referentially transparent: two identical IO values behave identically as descriptions of effects.</p>
+<h2 id="52-io--suspending-effects"><a class="header" href="#52-io--suspending-effects">5.2 IO — Suspending effects</a></h2>
+<p>In Java 21, IO can be defined compactly using a record:</p>
+<pre><code class="language-java">public record Io&lt;A&gt;(Supplier&lt;A&gt; thunk) {
+    public A unsafeRun() { return thunk.get(); }
+
+    public &lt;B&gt; Io&lt;B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Io&lt;&gt;(() -&gt; f.apply(unsafeRun()));
+    }
+
+    public &lt;B&gt; Io&lt;B&gt; flatMap(Function&lt;? super A, Io&lt;B&gt;&gt; f) {
+        return new Io&lt;&gt;(() -&gt; f.apply(unsafeRun()).unsafeRun());
+    }
+}
+</code></pre>
+<p>This structure closely mirrors IO implementations found in Scala or Haskell.</p>
+<h3 id="why-java-21-works-well-here"><a class="header" href="#why-java-21-works-well-here">Why Java 21 works well here</a></h3>
+<ul>
+<li><code>record</code> enables concise immutable wrappers</li>
+<li>Lambdas naturally defer evaluation</li>
+<li><code>map</code> and <code>flatMap</code> create sequential effect chains</li>
+<li>No higher-kinded types are needed</li>
+</ul>
+<p>IO in Java 21 is therefore <em>practical</em>, expressive, and conceptually aligned with standard FP semantics.</p>
+<h2 id="53-reader--environment-passing-computations"><a class="header" href="#53-reader--environment-passing-computations">5.3 Reader — Environment-passing computations</a></h2>
+<p>Reader represents computations that depend on some environment:</p>
+<pre><code class="language-text">R → A
+</code></pre>
+<p>It offers an alternative to DI frameworks, favoring a simpler, explicit, and type-directed approach.</p>
+<pre><code class="language-java">public record Reader&lt;R, A&gt;(Function&lt;R, A&gt; run) {
+    public A apply(R env) { return run.apply(env); }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Reader&lt;&gt;(env -&gt; f.apply(run.apply(env)));
+    }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; flatMap(Function&lt;? super A, Reader&lt;R, B&gt;&gt; f) {
+        return new Reader&lt;&gt;(env -&gt; f.apply(run.apply(env)).run.apply(env));
+    }
+
+    public static &lt;R&gt; Reader&lt;R, R&gt; ask() {
+        return new Reader&lt;&gt;(env -&gt; env);
+    }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; local(Function&lt;R, R&gt; modify) {
+        return new Reader&lt;&gt;(env -&gt; run.apply(modify.apply(env)));
+    }
+}
+</code></pre>
+<h3 id="why-reader-fits-java-well"><a class="header" href="#why-reader-fits-java-well">Why Reader fits Java well</a></h3>
+<ul>
+<li>No higher-kinded types required</li>
+<li>Very close to its Scala/Haskell counterparts</li>
+<li>Expressive for configuration passing</li>
+<li>Eliminates need for containers or global state</li>
+</ul>
+<p>Reader is a strong example of FP abstractions fitting naturally within Java’s syntax and type system.</p>
+<h2 id="54-writer--accumulating-logs"><a class="header" href="#54-writer--accumulating-logs">5.4 Writer — Accumulating logs</a></h2>
+<p>Writer captures a value plus an accumulated log:</p>
+<pre><code class="language-text">(A, W)
+</code></pre>
+<p>Its Java 21 representation is compact:</p>
+<pre><code class="language-java">public record Writer&lt;W, A&gt;(A value, W log, BinaryOperator&lt;W&gt; append) {
+    public &lt;B&gt; Writer&lt;W, B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Writer&lt;&gt;(f.apply(value), log, append);
+    }
+
+    public &lt;B&gt; Writer&lt;W, B&gt; flatMap(Function&lt;? super A, Writer&lt;W, B&gt;&gt; f) {
+        Writer&lt;W, B&gt; next = f.apply(value);
+        return new Writer&lt;&gt;(next.value, append.apply(log, next.log), append);
+    }
+}
+</code></pre>
+<h3 id="why-writer-also-works-well-in-java"><a class="header" href="#why-writer-also-works-well-in-java">Why Writer also works well in Java</a></h3>
+<ul>
+<li>Java collections (e.g., <code>List&lt;String&gt;</code>) naturally serve as logs</li>
+<li><code>record</code> eliminates boilerplate</li>
+<li><code>append</code> abstracts monoid behavior without type classes</li>
+</ul>
+<p>Writer shows that Java can express FP accumulation patterns clearly and succinctly.</p>
+<h2 id="55-the-shared-structure-effectful-computation-as-data"><a class="header" href="#55-the-shared-structure-effectful-computation-as-data">5.5 The shared structure: effectful computation as data</a></h2>
+<p>IO, Reader, and Writer share a unifying idea:</p>
+<p><strong>Effectful computations should be represented as values that can be combined before they are executed.</strong></p>
+<p>In Java 21, this model works smoothly:</p>
+<ul>
+<li>pure wrappers (<code>record</code>)</li>
+<li>first-class functions (<code>Function</code>, lambdas)</li>
+<li>local reasoning via <code>map</code> and <code>flatMap</code></li>
+<li>explicit execution boundaries</li>
+</ul>
+<p>These abstractions align cleanly with functional semantics while remaining practical for real-world Java development.</p>
+<h2 id="56-summary"><a class="header" href="#56-summary">5.6 Summary</a></h2>
+<p>Java 21 provides a sufficiently expressive foundation for effect suspension.<br />
+IO, Reader, and Writer can be written with minimal ceremony, without advanced type-system features, and without deviating from their functional meaning.</p>
+<p>These constructs complete the fundamental FP tools needed before moving on to more advanced abstractions such as parsers, interpreters, and—later in the book—free monads.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter-04.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter-06.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter-04.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter-06.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ga.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

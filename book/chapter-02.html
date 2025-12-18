@@ -1,0 +1,320 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 02 — Java 17 vs Java 21 — An FP-Oriented Comparison - Functional Programming in Java</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Functional Programming in Java</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sisiodos/fpinjava" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-02--java-17-vs-java-21--an-fp-oriented-comparison"><a class="header" href="#chapter-02--java-17-vs-java-21--an-fp-oriented-comparison">Chapter 02 — Java 17 vs Java 21 — An FP-Oriented Comparison</a></h1>
+<p>Recent versions of Java introduce language features that make the language noticeably more hospitable to functional programming patterns.<br />
+However, the difference between “possible” and “comfortable” functional programming is significant.<br />
+This chapter clarifies what each version offers, and what functional abstractions become easier or remain awkward.</p>
+<h2 id="1-adt-capability-sealed-types-vs-open-hierarchies"><a class="header" href="#1-adt-capability-sealed-types-vs-open-hierarchies">1. ADT Capability: Sealed Types vs. Open Hierarchies</a></h2>
+<h3 id="java-17"><a class="header" href="#java-17">Java 17</a></h3>
+<ul>
+<li>Introduces <code>record</code> and <code>sealed</code> classes.</li>
+<li>Algebraic Data Types (ADTs) can be emulated, but require boilerplate.</li>
+<li>Exhaustiveness is <em>not</em> enforced unless pattern matching is used carefully.</li>
+</ul>
+<h3 id="java-21"><a class="header" href="#java-21">Java 21</a></h3>
+<ul>
+<li>Fully supports sealed hierarchies with pattern matching for both <code>instanceof</code> and <code>switch</code>.</li>
+<li>ADT definitions become closer to their Scala/Haskell equivalents.</li>
+<li>Compiler can enforce totality across patterns.</li>
+</ul>
+<h3 id="fp-impact"><a class="header" href="#fp-impact">FP Impact</a></h3>
+<ul>
+<li>Core FP constructs such as <code>Option</code>, <code>Either</code>, <code>Try</code>, <code>List</code>, and <code>Tree</code> map naturally to ADTs.</li>
+<li>Java 21 reduces syntactic friction, but deeper semantic FP features remain absent.</li>
+</ul>
+<h2 id="2-pattern-matching-toward-expression-oriented-code"><a class="header" href="#2-pattern-matching-toward-expression-oriented-code">2. Pattern Matching: Toward Expression-Oriented Code</a></h2>
+<h3 id="java-17-1"><a class="header" href="#java-17-1">Java 17</a></h3>
+<ul>
+<li>Pattern matching is limited to <code>instanceof</code>.</li>
+<li>Decomposition requires manual casting or visitor patterns.</li>
+<li>FP-style recursion is verbose.</li>
+</ul>
+<h3 id="java-21-1"><a class="header" href="#java-21-1">Java 21</a></h3>
+<p>Pattern-switch expressions allow expressive decomposition:</p>
+<pre><code class="language-java">return switch (opt) {
+  case Some(var v) -&gt; f(v);
+  case None _      -&gt; defaultValue;
+};
+</code></pre>
+<h3 id="fp-impact-1"><a class="header" href="#fp-impact-1">FP Impact</a></h3>
+<ul>
+<li>Removes a large amount of ceremony.</li>
+<li>Enables clear interpreter and DSL implementations.</li>
+<li>Shifts Java closer to an expression-oriented language, a key requirement for FP.</li>
+</ul>
+<h2 id="3-records-and-immutability"><a class="header" href="#3-records-and-immutability">3. Records and Immutability</a></h2>
+<h3 id="java-17-2"><a class="header" href="#java-17-2">Java 17</a></h3>
+<ul>
+<li><code>record</code> provides concise immutable data structures.</li>
+<li>Plays well with FP-style case classes.</li>
+<li>Immutability is shallow, but adequate for ADTs.</li>
+</ul>
+<h3 id="java-21-2"><a class="header" href="#java-21-2">Java 21</a></h3>
+<ul>
+<li>Integrates cleanly with pattern matching and sealed types.</li>
+</ul>
+<h3 id="fp-impact-2"><a class="header" href="#fp-impact-2">FP Impact</a></h3>
+<ul>
+<li>Records act as constructors for ADT nodes.</li>
+<li>Combined with <code>sealed</code>, they form the foundation for FP modeling in Java.</li>
+</ul>
+<h2 id="4-how-these-features-enable-fp-constructs"><a class="header" href="#4-how-these-features-enable-fp-constructs">4. How These Features Enable FP Constructs</a></h2>
+<p>Java 21 enables:</p>
+<ul>
+<li>Expressive ADT modeling</li>
+<li>Pure interpreter-style programming</li>
+<li>Safer recursion via exhaustive pattern matching</li>
+<li>Declarative, expression-based computation</li>
+</ul>
+<p>These limitations are not accidental.</p>
+<p>Java is fundamentally designed as an object-oriented, imperative language.
+Its type system, syntax, and standard library are optimized for explicit control flow,
+nominal typing, and long-term backward compatibility.</p>
+<p>From this perspective, it is natural that features such as:</p>
+<ul>
+<li>higher-kinded types</li>
+<li>FP-oriented type inference</li>
+<li>monadic syntax</li>
+<li>comprehensive functional standard library</li>
+</ul>
+<p>fall outside Java’s core design priorities.</p>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>Java 21 brings the language significantly closer to an FP-friendly environment,<br />
+but the underlying model remains object-oriented and nominally typed.<br />
+These additions enable functional-style programming, without changing Java’s conceptual center.</p>
+<p>Its improvements matter for pedagogy and DSL construction,<br />
+yet they do not turn Java into a functional programming language.</p>
+<p>This sets the stage for the next chapters: understanding how FP abstractions<br />
+can be expressed <em>despite</em> the host language, and what we learn from those attempts.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter-01.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter-03.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter-01.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter-03.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ga.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

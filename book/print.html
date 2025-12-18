@@ -1,0 +1,1974 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Functional Programming in Java</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Functional Programming in Java</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sisiodos/fpinjava" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="functional-programming-in-java"><a class="header" href="#functional-programming-in-java">Functional Programming in Java</a></h1>
+<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
+<p>This repository accompanies a book-length experiment on practicing
+functional programming in modern Java, primarily Java 21.</p>
+<p>It is not an attempt to turn Java into Scala or Haskell.
+Nor is it a tutorial on functional syntax or library usage.</p>
+<p>Instead, this work explores a simple question:</p>
+<p><strong>What kind of functional programming becomes possible
+when Java is pushed to the edge of its current language design?</strong></p>
+<p>Recent versions of Java have quietly accumulated features
+that significantly change how programs can be structured:</p>
+<ul>
+<li>immutable data via <code>record</code></li>
+<li>algebraic-style modeling via <code>sealed</code> types</li>
+<li>increasingly expressive pattern matching</li>
+<li>improved type inference and lambda ergonomics</li>
+</ul>
+<p>Taken together, these features make Java closer to
+functional languages than it has ever been before.</p>
+<p>This book treats Java as a <em>constrained functional language</em>,
+and examines what can be built within those constraints.</p>
+<h2 id="motivation"><a class="header" href="#motivation">Motivation</a></h2>
+<p>Functional programming is often taught using languages that were designed for it from the beginning.
+That is valuable—but it makes it easy to miss why those abstractions exist at all.
+This project takes the opposite approach.</p>
+<p>By attempting functional programming <strong>inside Java</strong>,
+we are forced to confront design pressure directly:
+what the language enables, what it resists, and where abstractions begin to leak.</p>
+<p>The goal is <strong>clarity</strong> rather than convenience.</p>
+<p>Implementing core functional constructs in Java—
+such as <code>Option</code>, <code>Either</code>, <code>State</code>, <code>IO</code>, parser combinators, and even a minimal Free Monad—
+reveals why these abstractions exist and what structural problems they are meant to solve.</p>
+<p>Java makes these problems visible precisely because it does not erase them with syntax.</p>
+<h2 id="why-java-21"><a class="header" href="#why-java-21">Why Java 21?</a></h2>
+<p>Java 21 represents a turning point—not as a sudden break,
+but as the point where a long sequence of changes becomes coherent.</p>
+<p>Java’s path toward functional programming did not begin with Java 21.</p>
+<p>Java 8 introduced functional interfaces and lambda expressions,
+making it practical to pass functions into other functions in everyday Java code.</p>
+<p>Java 17 added records and sealed interfaces,
+making it possible to model immutable data and closed sets of variants explicitly—
+a prerequisite for functional-style data modeling.</p>
+<p>With Java 21, pattern matching integrates these features at the syntactic level.
+Data modeling, branching, and decomposition now work together,
+making functional-style control flow practical in Java.</p>
+<p>Taken together, these changes make it possible
+to treat modern Java as a constrained functional language—
+not by accident, but by gradual design.</p>
+<h2 id="scope-of-the-experiment"><a class="header" href="#scope-of-the-experiment">Scope of the Experiment</a></h2>
+<p>This book progresses from basic functional data types
+to effect modeling and DSL construction:</p>
+<ul>
+<li>foundational types (<code>Option</code>, <code>Either</code>, <code>Try</code>)</li>
+<li>state and effect suspension</li>
+<li>functional data structures</li>
+<li>parser combinators</li>
+<li>Free Monads and interpretation</li>
+<li>DSL design and the boundary between programs and data</li>
+</ul>
+<p>The emphasis is not on performance or completeness, but on <strong>structural insight</strong>.
+Code exists to support reasoning, and reasoning exists to expose structure.
+The code is not presented as a solution, but as a concrete artifact through which structure becomes visible.</p>
+<p>Rather than bringing Java closer to functional languages,
+this experiment uses Java to make the hidden structure of functional languages easier to see.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-01--introduction"><a class="header" href="#chapter-01--introduction">Chapter 01 — Introduction</a></h1>
+<h2 id="why-study-functional-programming-in-java"><a class="header" href="#why-study-functional-programming-in-java">Why Study Functional Programming <em>in Java</em>?</a></h2>
+<p>Recent versions of Java have introduced records, sealed types, and pattern matching.
+These features make the language appear closer to modern functional languages.
+At the beginning of this project, I held the expectation that:</p>
+<blockquote>
+<p><em>“Perhaps Java is now expressive enough to support functional programming without friction.”</em></p>
+</blockquote>
+<p>This expectation was reasonable — and incorrect.</p>
+<p>Java can emulate certain patterns from functional languages,
+but it cannot offer the semantic foundations on which functional programming is built.
+Higher-kinded types do not exist, subtyping dominates the type system,
+and generics are erased at runtime.
+These constraints limit what can be expressed cleanly.</p>
+<p>However, this limitation became the starting point of the book.</p>
+<p>Attempting to write functional programs <em>within</em> Java’s boundaries reveals something essential:</p>
+<blockquote>
+<p>Functional programming is not merely a collection of idioms.
+It is better understood as a discipline centered on algebraic data types,
+pure composition, and interpretable program structures.</p>
+</blockquote>
+<p>Java’s resistance to these ideas makes the underlying principles easier—not harder—to see.</p>
+<p>Throughout this book, we explore several core functional abstractions:</p>
+<ul>
+<li>algebraic data types (Either, Option, Try)</li>
+<li>immutable data structures</li>
+<li>State and IO as explicit effects</li>
+<li>parser combinators</li>
+<li>Free monads and interpreters</li>
+<li>domain-specific languages and intermediate representations</li>
+</ul>
+<p>Each abstraction exposes the same lesson:</p>
+<blockquote>
+<p><strong>Functional programming is a way to <em>describe computations</em>,
+not a way to organize classes.</strong></p>
+</blockquote>
+<p>This book is therefore not an argument for writing functional programs in Java.
+Rather, it uses Java intentionally as a constrained environment
+in which the structure of functional programming becomes clearer.</p>
+<p>If this book succeeds, you will not conclude that Java is a good choice for functional programs.<br />
+You will instead understand <em>why</em> functional languages are designed differently,<br />
+and why those designs matter.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-02--java-17-vs-java-21--an-fp-oriented-comparison"><a class="header" href="#chapter-02--java-17-vs-java-21--an-fp-oriented-comparison">Chapter 02 — Java 17 vs Java 21 — An FP-Oriented Comparison</a></h1>
+<p>Recent versions of Java introduce language features that make the language noticeably more hospitable to functional programming patterns.<br />
+However, the difference between “possible” and “comfortable” functional programming is significant.<br />
+This chapter clarifies what each version offers, and what functional abstractions become easier or remain awkward.</p>
+<h2 id="1-adt-capability-sealed-types-vs-open-hierarchies"><a class="header" href="#1-adt-capability-sealed-types-vs-open-hierarchies">1. ADT Capability: Sealed Types vs. Open Hierarchies</a></h2>
+<h3 id="java-17"><a class="header" href="#java-17">Java 17</a></h3>
+<ul>
+<li>Introduces <code>record</code> and <code>sealed</code> classes.</li>
+<li>Algebraic Data Types (ADTs) can be emulated, but require boilerplate.</li>
+<li>Exhaustiveness is <em>not</em> enforced unless pattern matching is used carefully.</li>
+</ul>
+<h3 id="java-21"><a class="header" href="#java-21">Java 21</a></h3>
+<ul>
+<li>Fully supports sealed hierarchies with pattern matching for both <code>instanceof</code> and <code>switch</code>.</li>
+<li>ADT definitions become closer to their Scala/Haskell equivalents.</li>
+<li>Compiler can enforce totality across patterns.</li>
+</ul>
+<h3 id="fp-impact"><a class="header" href="#fp-impact">FP Impact</a></h3>
+<ul>
+<li>Core FP constructs such as <code>Option</code>, <code>Either</code>, <code>Try</code>, <code>List</code>, and <code>Tree</code> map naturally to ADTs.</li>
+<li>Java 21 reduces syntactic friction, but deeper semantic FP features remain absent.</li>
+</ul>
+<h2 id="2-pattern-matching-toward-expression-oriented-code"><a class="header" href="#2-pattern-matching-toward-expression-oriented-code">2. Pattern Matching: Toward Expression-Oriented Code</a></h2>
+<h3 id="java-17-1"><a class="header" href="#java-17-1">Java 17</a></h3>
+<ul>
+<li>Pattern matching is limited to <code>instanceof</code>.</li>
+<li>Decomposition requires manual casting or visitor patterns.</li>
+<li>FP-style recursion is verbose.</li>
+</ul>
+<h3 id="java-21-1"><a class="header" href="#java-21-1">Java 21</a></h3>
+<p>Pattern-switch expressions allow expressive decomposition:</p>
+<pre><code class="language-java">return switch (opt) {
+  case Some(var v) -&gt; f(v);
+  case None _      -&gt; defaultValue;
+};
+</code></pre>
+<h3 id="fp-impact-1"><a class="header" href="#fp-impact-1">FP Impact</a></h3>
+<ul>
+<li>Removes a large amount of ceremony.</li>
+<li>Enables clear interpreter and DSL implementations.</li>
+<li>Shifts Java closer to an expression-oriented language, a key requirement for FP.</li>
+</ul>
+<h2 id="3-records-and-immutability"><a class="header" href="#3-records-and-immutability">3. Records and Immutability</a></h2>
+<h3 id="java-17-2"><a class="header" href="#java-17-2">Java 17</a></h3>
+<ul>
+<li><code>record</code> provides concise immutable data structures.</li>
+<li>Plays well with FP-style case classes.</li>
+<li>Immutability is shallow, but adequate for ADTs.</li>
+</ul>
+<h3 id="java-21-2"><a class="header" href="#java-21-2">Java 21</a></h3>
+<ul>
+<li>Integrates cleanly with pattern matching and sealed types.</li>
+</ul>
+<h3 id="fp-impact-2"><a class="header" href="#fp-impact-2">FP Impact</a></h3>
+<ul>
+<li>Records act as constructors for ADT nodes.</li>
+<li>Combined with <code>sealed</code>, they form the foundation for FP modeling in Java.</li>
+</ul>
+<h2 id="4-how-these-features-enable-fp-constructs"><a class="header" href="#4-how-these-features-enable-fp-constructs">4. How These Features Enable FP Constructs</a></h2>
+<p>Java 21 enables:</p>
+<ul>
+<li>Expressive ADT modeling</li>
+<li>Pure interpreter-style programming</li>
+<li>Safer recursion via exhaustive pattern matching</li>
+<li>Declarative, expression-based computation</li>
+</ul>
+<p>These limitations are not accidental.</p>
+<p>Java is fundamentally designed as an object-oriented, imperative language.
+Its type system, syntax, and standard library are optimized for explicit control flow,
+nominal typing, and long-term backward compatibility.</p>
+<p>From this perspective, it is natural that features such as:</p>
+<ul>
+<li>higher-kinded types</li>
+<li>FP-oriented type inference</li>
+<li>monadic syntax</li>
+<li>comprehensive functional standard library</li>
+</ul>
+<p>fall outside Java’s core design priorities.</p>
+<h2 id="summary-1"><a class="header" href="#summary-1">Summary</a></h2>
+<p>Java 21 brings the language significantly closer to an FP-friendly environment,<br />
+but the underlying model remains object-oriented and nominally typed.<br />
+These additions enable functional-style programming, without changing Java’s conceptual center.</p>
+<p>Its improvements matter for pedagogy and DSL construction,<br />
+yet they do not turn Java into a functional programming language.</p>
+<p>This sets the stage for the next chapters: understanding how FP abstractions<br />
+can be expressed <em>despite</em> the host language, and what we learn from those attempts.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-03--option--either--try--algebraic-data-types-in-a-nominal-world"><a class="header" href="#chapter-03--option--either--try--algebraic-data-types-in-a-nominal-world">Chapter 03 — Option / Either / Try — Algebraic Data Types in a Nominal World</a></h1>
+<p>Algebraic Data Types (ADTs) form the basic vocabulary of functional programming.<br />
+They allow us to <em>classify</em> computations by their possible shapes, and they allow the compiler to enforce these shapes.<br />
+In this chapter, we reconstruct three essential ADTs in Java:</p>
+<ul>
+<li><code>Option&lt;A&gt;</code> — presence or absence</li>
+<li><code>Either&lt;L, R&gt;</code> — branching structure</li>
+<li><code>Try&lt;A&gt;</code> — exception-safe computation</li>
+</ul>
+<p>Although these constructs are simple, they expose the core tension between FP semantics and Java’s nominal type system.</p>
+<h2 id="31-what-adts-represent"><a class="header" href="#31-what-adts-represent">3.1 What ADTs Represent</a></h2>
+<p>An ADT is defined not by its methods, but by its <em>constructors</em>.<br />
+<code>Option&lt;A&gt;</code> is the sum of two cases:</p>
+<pre><code class="language-java">Option&lt;A&gt; = Some(a) | None
+</code></pre>
+<p>Similarly:</p>
+<pre><code class="language-java">Either&lt;L, R&gt; = Left(l) | Right(r)
+Try&lt;A&gt;      = Success(a) | Failure(e)
+</code></pre>
+<p>Each of these structures encodes a <em>logical space</em> of possibilities.<br />
+Pattern matching allows us to make this structure explicit.</p>
+<h2 id="32-expressing-adts-in-java-17"><a class="header" href="#32-expressing-adts-in-java-17">3.2 Expressing ADTs in Java 17</a></h2>
+<p>Java 17 supports records and sealed interfaces, enabling a minimal ADT style:</p>
+<pre><code class="language-java">public sealed interface Option&lt;A&gt; permits Some, None {}
+
+public record Some&lt;A&gt;(A value) implements Option&lt;A&gt; {}
+public record None&lt;A&gt;()        implements Option&lt;A&gt; {}
+</code></pre>
+<p>Conceptually, this is close to Scala, but several limitations remain:</p>
+<ul>
+<li>Generics are erased at runtime.</li>
+<li>Exhaustiveness checking is partial.</li>
+<li>Pattern matching on <code>switch</code> is not fully supported.</li>
+</ul>
+<p>This results in some additional ceremony in fold/map/flatMap implementations, reflecting Java’s nominal type model, but the semantics remain clear and predictable.</p>
+<h2 id="33-improvements-in-java-21"><a class="header" href="#33-improvements-in-java-21">3.3 Improvements in Java 21</a></h2>
+<p>With Java 21:</p>
+<ul>
+<li>Pattern matching is available in <code>switch</code>.</li>
+<li>Deconstruction patterns apply directly to records.</li>
+<li>The compiler can check exhaustiveness for sealed hierarchies.</li>
+</ul>
+<p>This allows expressive FP-style code:</p>
+<pre><code class="language-java">return switch (opt) {
+  case Some(var v) -&gt; f.apply(v);
+  case None _      -&gt; defaultValue;
+};
+</code></pre>
+<p>ADTs become more <em>transparent</em>, though not as concise as in FP-native languages.</p>
+<h2 id="34-option--modeling-optionality-explicitly"><a class="header" href="#34-option--modeling-optionality-explicitly">3.4 Option — Modeling Optionality Explicitly</a></h2>
+<h3 id="intent"><a class="header" href="#intent">Intent</a></h3>
+<p><code>Option&lt;A&gt;</code> explicitly represents <em>absence</em>, removing the need for <code>null</code>.</p>
+<h3 id="essential-operations"><a class="header" href="#essential-operations">Essential operations</a></h3>
+<ul>
+<li><code>map</code> — transform inside the container</li>
+<li><code>flatMap</code> — sequence optional computations</li>
+<li><code>getOrElse</code> — recover default values</li>
+<li><code>fold</code> — deconstruct the ADT (core abstraction)</li>
+</ul>
+<h3 id="example"><a class="header" href="#example">Example</a></h3>
+<pre><code class="language-java">Option&lt;Integer&gt; x = some(10)
+    .map(v -&gt; v + 1)
+    .flatMap(v -&gt; v &gt; 10 ? some(v) : none());
+</code></pre>
+<h3 id="interpretation"><a class="header" href="#interpretation">Interpretation</a></h3>
+<p><code>Option</code> expresses <em>non-failure</em> absence.<br />
+It is appropriate when “no value” is a valid, expected result—not an error condition.</p>
+<h2 id="35-either--expressing-structured-alternatives"><a class="header" href="#35-either--expressing-structured-alternatives">3.5 Either — Expressing Structured Alternatives</a></h2>
+<p><code>Either&lt;L, R&gt;</code> carries <em>two</em> possible shapes:</p>
+<ul>
+<li><code>Left&lt;L&gt;</code> typically represents error or alternative path</li>
+<li><code>Right&lt;R&gt;</code> represents success or primary path</li>
+</ul>
+<p>This ADT is essential for:</p>
+<ul>
+<li>parser combinators</li>
+<li>branch-sensitive computations</li>
+<li>state machines</li>
+<li>interpreter pipelines</li>
+</ul>
+<h3 id="example-1"><a class="header" href="#example-1">Example</a></h3>
+<pre><code class="language-java">Either&lt;String, Integer&gt; result =
+    parseInt("10")
+      .map(i -&gt; i + 1)
+      .flatMap(i -&gt; i &lt; 20
+          ? Either.right(i)
+          : Either.left("Too large"));
+</code></pre>
+<h3 id="interpretation-1"><a class="header" href="#interpretation-1">Interpretation</a></h3>
+<p><code>Either</code> exposes branching logic explicitly, making error paths <em>visible in the type system</em>.<br />
+This is a fundamental FP discipline: <em>errors are values, not exceptions</em>.</p>
+<h2 id="36-try--controlled-exceptional-computation"><a class="header" href="#36-try--controlled-exceptional-computation">3.6 Try — Controlled Exceptional Computation</a></h2>
+<p><code>Try&lt;A&gt;</code> captures Java exceptions in a pure ADT.</p>
+<h3 id="motivation-1"><a class="header" href="#motivation-1">Motivation</a></h3>
+<p>Java’s built-in exception mechanism is:</p>
+<ul>
+<li>invisible in the type system</li>
+<li>non-compositional</li>
+<li>side-effecting</li>
+</ul>
+<p><code>Try</code> restores structure:</p>
+<pre><code class="language-java">Try&lt;A&gt; = Success(a) | Failure(exception)
+</code></pre>
+<h3 id="example-2"><a class="header" href="#example-2">Example</a></h3>
+<pre><code class="language-java">Try&lt;Integer&gt; t =
+    Try.of(() -&gt; Integer.parseInt("10"))
+       .map(n -&gt; n + 1)
+       .recover(e -&gt; 0);
+</code></pre>
+<h3 id="interpretation-2"><a class="header" href="#interpretation-2">Interpretation</a></h3>
+<p><code>Try</code> is appropriate when exceptions must be handled <em>locally</em> and <em>composed</em> across transformations.</p>
+<h2 id="37-what-these-adts-reveal-about-java"><a class="header" href="#37-what-these-adts-reveal-about-java">3.7 What These ADTs Reveal About Java</a></h2>
+<p>Before examining the limitations, it is worth emphasizing a positive and perhaps surprising result: <strong>Option, Either, and Try are pleasant to use in Java 21.</strong> With sealed interfaces, records, and pattern matching, these ADTs impose very little cognitive or syntactic burden. For many programs, especially those that do not attempt to abstract over higher-kinded types, Java 21 provides a sufficiently expressive substrate. In other words: <strong>if one stays at the level of concrete ADTs and does not pursue type-level abstraction, Java’s ergonomics are entirely acceptable.</strong></p>
+<p>Implementing these ADTs in Java clarifies several important points:</p>
+<ol>
+<li>
+<p><strong><code>fold</code> is the central operation</strong>
+In Java 17, <code>fold</code> was the primary way to make the structure of an ADT explicit. Without pattern matching on <code>switch</code>, all structural recursion had to be expressed through library-level abstractions such as <code>fold</code>, <code>map</code>, and <code>flatMap</code>. In other words, <code>fold</code> carried the full weight of case analysis.</p>
+</li>
+<li>
+<p><strong>FP relies on data constructors and explicit case analysis</strong>
+In Java’s nominal type system, this structure must be emulated explicitly, as generic variance and subtype relationships (for example, <code>? super</code> / <code>? extends</code>) do not naturally encode such cases.</p>
+</li>
+<li>
+<p><strong>Java does not provide higher‑kinded types</strong>, which means abstractions such as Functor and Monad must be expressed explicitly rather than derived from the type system.</p>
+</li>
+<li>
+<p><strong>Pattern matching substantially narrows the gap</strong>, though Java’s design remains oriented toward object‑centric composition.</p>
+</li>
+<li>
+<p><strong>Error handling becomes explicit</strong>, which is a significant improvement over exceptions.</p>
+</li>
+</ol>
+<h2 id="38-summary"><a class="header" href="#38-summary">3.8 Summary</a></h2>
+<p>Option, Either, and Try form the conceptual foundation of all later chapters:</p>
+<ul>
+<li>parser combinators rely on Either</li>
+<li>State and IO rely on map/flatMap semantics</li>
+<li>Free monads rely on ADTs to define instruction sets</li>
+<li>DSL interpreters rely on structural recursion over ADTs</li>
+</ul>
+<p>Understanding these data structures in Java clarifies the broader thesis of this book:</p>
+<blockquote>
+<p><strong>FP is the art of structuring computation through algebraic data types.<br />
+Java approaches this style with its own tools and trade‑offs, offering a practical—if distinct—path toward FP‑influenced design.</strong></p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-04--the-state-monad"><a class="header" href="#chapter-04--the-state-monad">Chapter 04 — The State Monad</a></h1>
+<p>In functional programming, the <strong>State monad</strong> provides a disciplined way to model computations that carry state along a sequence of operations, without mutating variables. This chapter explores how to express this concept in Java, using immutable data structures and pure functions.</p>
+<h2 id="41-what-problem-does-the-state-monad-solve"><a class="header" href="#41-what-problem-does-the-state-monad-solve">4.1 What Problem Does the State Monad Solve?</a></h2>
+<p>Many algorithms require some notion of <em>state</em>: counters, random number generators, accumulators, symbol tables, and so on.</p>
+<p>In imperative Java, these are usually implemented through:</p>
+<ul>
+<li>mutable fields,</li>
+<li>shared objects,</li>
+<li>side‑effects embedded in methods.</li>
+</ul>
+<p>From an FP perspective, these techniques obscure data flow and make reasoning difficult.<br />
+The State monad provides a pure alternative:</p>
+<ul>
+<li><strong>State is passed explicitly</strong>, never hidden.</li>
+<li><strong>Each computation returns both a value and a new state</strong>.</li>
+<li><strong>Compositionality</strong>: complex stateful logic is built from smaller steps.</li>
+</ul>
+<h2 id="42-the-state-monad-definition-in-java"><a class="header" href="#42-the-state-monad-definition-in-java">4.2 The State Monad Definition in Java</a></h2>
+<p>We adopt the canonical signature:</p>
+<pre><code class="language-java">public record State&lt;S, A&gt;(Function&lt;S, Tuple2&lt;A, S&gt;&gt; run) {
+
+    public &lt;B&gt; State&lt;S, B&gt; map(Function&lt;A, B&gt; f) {
+        return new State&lt;&gt;(s -&gt; {
+            var result = run.apply(s);
+            return Tuple.of(f.apply(result._1()), result._2());
+        });
+    }
+
+    public &lt;B&gt; State&lt;S, B&gt; flatMap(Function&lt;A, State&lt;S, B&gt;&gt; f) {
+        return new State&lt;&gt;(s -&gt; {
+            var result = run.apply(s);
+            return f.apply(result._1()).run().apply(result._2());
+        });
+    }
+}
+</code></pre>
+<p>Key points:</p>
+<ul>
+<li><code>run</code> encapsulates a computation from state <code>S</code> to a pair <code>(A, S)</code>.</li>
+<li><code>map</code> transforms the <em>value</em> while keeping the state intact.</li>
+<li><code>flatMap</code> chains computations, threading state from one step to the next.</li>
+</ul>
+<p>This design preserves purity while allowing sequential composition.</p>
+<h2 id="43-a-minimal-example-a-counter"><a class="header" href="#43-a-minimal-example-a-counter">4.3 A Minimal Example: A Counter</a></h2>
+<p>A common example is a simple counter that increments as we evaluate expressions.</p>
+<pre><code class="language-java">public static State&lt;Integer, Integer&gt; increment() {
+    return new State&lt;&gt;(s -&gt; Tuple.of(s, s + 1));
+}
+</code></pre>
+<p>Using <code>map</code> and <code>flatMap</code>, we can chain operations:</p>
+<pre><code class="language-java">State&lt;Integer, Tuple2&lt;Integer, Integer&gt;&gt; program =
+    increment().flatMap(a -&gt;
+    increment().map(b -&gt;
+        Tuple.of(a, b)
+    ));
+</code></pre>
+<p>Running:</p>
+<pre><code class="language-java">var result = program.run().apply(0);
+// result = ((0, 1), state = 2)
+</code></pre>
+<p>This illustrates the fundamental rule:</p>
+<blockquote>
+<p><strong>State flows purely through the computation without mutation.</strong></p>
+</blockquote>
+<h2 id="44-modeling-stateful-algorithms"><a class="header" href="#44-modeling-stateful-algorithms">4.4 Modeling Stateful Algorithms</a></h2>
+<p>The State monad becomes powerful when modeling logic such as:</p>
+<ul>
+<li>recursive tree traversals that carry contextual data,</li>
+<li>random number generators (RNG),</li>
+<li>symbol table construction during parsing,</li>
+<li>intermediate representations in compiler pipelines.</li>
+</ul>
+<p>For example, a pseudo‑random generator:</p>
+<pre><code class="language-java">State&lt;Long, Long&gt; nextLong = new State&lt;&gt;(seed -&gt; {
+    long newSeed = seed * 6364136223846793005L + 1;
+    return Tuple.of(newSeed, newSeed);
+});
+</code></pre>
+<p>Because both the value and the new seed are explicit, the computation is:</p>
+<ul>
+<li>reproducible,</li>
+<li>testable,</li>
+<li>free of hidden side-effects.</li>
+</ul>
+<h2 id="45-design-notes-for-java"><a class="header" href="#45-design-notes-for-java">4.5 Design Notes for Java</a></h2>
+<p>The State monad turns out to be one of the least problematic FP constructs to express in modern Java.
+Because its structure is simple—<code>S → (A, S)</code>—Java 21 provides all the tools needed:</p>
+<ul>
+<li>records for lightweight immutable data containers,</li>
+<li>lambdas for pure computations,</li>
+<li>pattern matching for readability (when needed).</li>
+</ul>
+<h2 id="-minimal-friction"><a class="header" href="#-minimal-friction">✔ Minimal friction</a></h2>
+<p>Unlike abstractions such as <code>Free</code>, or type-class–style polymorphism, <strong>State does not require higher-kinded types</strong>. Java’s parametric types are entirely sufficient, because State fixes the state parameter S and varies only the result type A.
+This means:</p>
+<ul>
+<li>no encoding tricks,</li>
+<li>no unsafe casts,</li>
+<li>no boilerplate beyond what purity itself requires.</li>
+</ul>
+<p>In practice, writing and composing State computations in Java 21 feels close to their Scala equivalents.</p>
+<h2 id="-what-hkts-would-enablebut-are-not-required-here"><a class="header" href="#-what-hkts-would-enablebut-are-not-required-here">✔ What HKTs would enable—but are not required here</a></h2>
+<p>Higher-kinded types become relevant only when we want:</p>
+<ul>
+<li>a unified abstraction over all monads,</li>
+<li>generic combinators parameterized by a type constructor <code>F&lt;\_&gt;</code>,</li>
+<li>a type-class-like syntax for Monad, Applicative, etc.</li>
+</ul>
+<p>However, <strong>none of these are necessary to use State itself</strong>.
+For expressing deterministic state-threading in real-world algorithms (parsers, interpreters, random generators), Java’s type system is perfectly adequate.</p>
+<h2 id="-remaining-verbosity"><a class="header" href="#-remaining-verbosity">✔ Remaining verbosity</a></h2>
+<p>The main friction points are incidental:</p>
+<ul>
+<li>Java lambdas remain more verbose than Haskell/Scala,</li>
+<li>Tuple types must be provided manually,</li>
+<li>Lack of partial application requires nested lambdas.</li>
+</ul>
+<p>These are ergonomic issues, not structural limitations.</p>
+<h2 id="summary-2"><a class="header" href="#summary-2">Summary</a></h2>
+<p>The State monad offers:</p>
+<ul>
+<li>predictable, explicit state threading,</li>
+<li>referential transparency,</li>
+<li>strong compositional properties.</li>
+</ul>
+<p>It is particularly instructive when studying interpreter construction, compiler pipelines, or any domain where state must be tracked without sacrificing purity.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-05--io-and-effect-suspension"><a class="header" href="#chapter-05--io-and-effect-suspension">Chapter 05 — IO and Effect Suspension</a></h1>
+<p>Modern Java (particularly Java 21) offers enough expressive power to encode the essential FP effect patterns—IO, Reader, and Writer—without significant friction.<br />
+Records, lambdas, and pattern matching collectively allow these constructs to be implemented in a direct and readable manner.<br />
+This chapter examines how these effect abstractions work, why they matter, and how Java can express them cleanly.</p>
+<h2 id="51-why-effects-must-be-suspended"><a class="header" href="#51-why-effects-must-be-suspended">5.1 Why effects must be suspended</a></h2>
+<p>A pure function always returns the same value for the same input.<br />
+Side effects—printing to the console, reading a file, mutating state—break this property because they depend on <em>time</em> and <em>context</em>.</p>
+<p>FP does not forbid effects. Instead, it enforces <em>discipline</em>:</p>
+<ul>
+<li>effects must be <strong>described</strong>, not executed immediately</li>
+<li>effects must be <strong>composed</strong> before execution</li>
+<li>effects must have <strong>one well-defined execution point</strong></li>
+</ul>
+<p>With IO, effects become referentially transparent: two identical IO values behave identically as descriptions of effects.</p>
+<h2 id="52-io--suspending-effects"><a class="header" href="#52-io--suspending-effects">5.2 IO — Suspending effects</a></h2>
+<p>In Java 21, IO can be defined compactly using a record:</p>
+<pre><code class="language-java">public record Io&lt;A&gt;(Supplier&lt;A&gt; thunk) {
+    public A unsafeRun() { return thunk.get(); }
+
+    public &lt;B&gt; Io&lt;B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Io&lt;&gt;(() -&gt; f.apply(unsafeRun()));
+    }
+
+    public &lt;B&gt; Io&lt;B&gt; flatMap(Function&lt;? super A, Io&lt;B&gt;&gt; f) {
+        return new Io&lt;&gt;(() -&gt; f.apply(unsafeRun()).unsafeRun());
+    }
+}
+</code></pre>
+<p>This structure closely mirrors IO implementations found in Scala or Haskell.</p>
+<h3 id="why-java-21-works-well-here"><a class="header" href="#why-java-21-works-well-here">Why Java 21 works well here</a></h3>
+<ul>
+<li><code>record</code> enables concise immutable wrappers</li>
+<li>Lambdas naturally defer evaluation</li>
+<li><code>map</code> and <code>flatMap</code> create sequential effect chains</li>
+<li>No higher-kinded types are needed</li>
+</ul>
+<p>IO in Java 21 is therefore <em>practical</em>, expressive, and conceptually aligned with standard FP semantics.</p>
+<h2 id="53-reader--environment-passing-computations"><a class="header" href="#53-reader--environment-passing-computations">5.3 Reader — Environment-passing computations</a></h2>
+<p>Reader represents computations that depend on some environment:</p>
+<pre><code class="language-text">R → A
+</code></pre>
+<p>It offers an alternative to DI frameworks, favoring a simpler, explicit, and type-directed approach.</p>
+<pre><code class="language-java">public record Reader&lt;R, A&gt;(Function&lt;R, A&gt; run) {
+    public A apply(R env) { return run.apply(env); }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Reader&lt;&gt;(env -&gt; f.apply(run.apply(env)));
+    }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; flatMap(Function&lt;? super A, Reader&lt;R, B&gt;&gt; f) {
+        return new Reader&lt;&gt;(env -&gt; f.apply(run.apply(env)).run.apply(env));
+    }
+
+    public static &lt;R&gt; Reader&lt;R, R&gt; ask() {
+        return new Reader&lt;&gt;(env -&gt; env);
+    }
+
+    public &lt;B&gt; Reader&lt;R, B&gt; local(Function&lt;R, R&gt; modify) {
+        return new Reader&lt;&gt;(env -&gt; run.apply(modify.apply(env)));
+    }
+}
+</code></pre>
+<h3 id="why-reader-fits-java-well"><a class="header" href="#why-reader-fits-java-well">Why Reader fits Java well</a></h3>
+<ul>
+<li>No higher-kinded types required</li>
+<li>Very close to its Scala/Haskell counterparts</li>
+<li>Expressive for configuration passing</li>
+<li>Eliminates need for containers or global state</li>
+</ul>
+<p>Reader is a strong example of FP abstractions fitting naturally within Java’s syntax and type system.</p>
+<h2 id="54-writer--accumulating-logs"><a class="header" href="#54-writer--accumulating-logs">5.4 Writer — Accumulating logs</a></h2>
+<p>Writer captures a value plus an accumulated log:</p>
+<pre><code class="language-text">(A, W)
+</code></pre>
+<p>Its Java 21 representation is compact:</p>
+<pre><code class="language-java">public record Writer&lt;W, A&gt;(A value, W log, BinaryOperator&lt;W&gt; append) {
+    public &lt;B&gt; Writer&lt;W, B&gt; map(Function&lt;? super A, ? extends B&gt; f) {
+        return new Writer&lt;&gt;(f.apply(value), log, append);
+    }
+
+    public &lt;B&gt; Writer&lt;W, B&gt; flatMap(Function&lt;? super A, Writer&lt;W, B&gt;&gt; f) {
+        Writer&lt;W, B&gt; next = f.apply(value);
+        return new Writer&lt;&gt;(next.value, append.apply(log, next.log), append);
+    }
+}
+</code></pre>
+<h3 id="why-writer-also-works-well-in-java"><a class="header" href="#why-writer-also-works-well-in-java">Why Writer also works well in Java</a></h3>
+<ul>
+<li>Java collections (e.g., <code>List&lt;String&gt;</code>) naturally serve as logs</li>
+<li><code>record</code> eliminates boilerplate</li>
+<li><code>append</code> abstracts monoid behavior without type classes</li>
+</ul>
+<p>Writer shows that Java can express FP accumulation patterns clearly and succinctly.</p>
+<h2 id="55-the-shared-structure-effectful-computation-as-data"><a class="header" href="#55-the-shared-structure-effectful-computation-as-data">5.5 The shared structure: effectful computation as data</a></h2>
+<p>IO, Reader, and Writer share a unifying idea:</p>
+<p><strong>Effectful computations should be represented as values that can be combined before they are executed.</strong></p>
+<p>In Java 21, this model works smoothly:</p>
+<ul>
+<li>pure wrappers (<code>record</code>)</li>
+<li>first-class functions (<code>Function</code>, lambdas)</li>
+<li>local reasoning via <code>map</code> and <code>flatMap</code></li>
+<li>explicit execution boundaries</li>
+</ul>
+<p>These abstractions align cleanly with functional semantics while remaining practical for real-world Java development.</p>
+<h2 id="56-summary"><a class="header" href="#56-summary">5.6 Summary</a></h2>
+<p>Java 21 provides a sufficiently expressive foundation for effect suspension.<br />
+IO, Reader, and Writer can be written with minimal ceremony, without advanced type-system features, and without deviating from their functional meaning.</p>
+<p>These constructs complete the fundamental FP tools needed before moving on to more advanced abstractions such as parsers, interpreters, and—later in the book—free monads.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-06--functional-data-structures-list"><a class="header" href="#chapter-06--functional-data-structures-list">Chapter 06 — Functional Data Structures: List</a></h1>
+<p>In this chapter we introduce <em>functional data structures</em> in their canonical form.
+While Java provides <code>List</code>, <code>ArrayList</code>, and <code>LinkedList</code>, none of these are <em>functional</em>:
+they are mutable, operationally defined, and do not express structure in types.</p>
+<p>A functional <code>List</code> is defined by <em>two constructors only</em>:</p>
+<ul>
+<li><code>Nil</code> — the empty list</li>
+<li><code>Cons(head, tail)</code> — an element followed by the rest of the list</li>
+</ul>
+<p>This is the same structure as in Haskell or Scala, and underlies structural recursion.</p>
+<h2 id="61-the-algebraic-data-type"><a class="header" href="#61-the-algebraic-data-type">6.1 The Algebraic Data Type</a></h2>
+<pre><code class="language-java">public sealed interface List&lt;A&gt; permits List.Nil, List.Cons {
+
+    record Nil&lt;A&gt;() implements List&lt;A&gt; {}
+
+    record Cons&lt;A&gt;(A head, List&lt;A&gt; tail) implements List&lt;A&gt; {}
+}
+</code></pre>
+<p>This gives us:</p>
+<ul>
+<li><strong>Immutability by design</strong></li>
+<li><strong>Total structural description</strong> of the data</li>
+<li>A foundation for <strong>structural recursion</strong></li>
+</ul>
+<p>Compared to Java’s built‑in collections, the important difference is <em>the absence of hidden mutation</em>.
+All operations return <em>new</em> lists rather than modifying existing ones.</p>
+<h2 id="62-basic-operations"><a class="header" href="#62-basic-operations">6.2 Basic Operations</a></h2>
+<p>The classical operations are:</p>
+<ul>
+<li><code>prepend</code></li>
+<li><code>map</code></li>
+<li><code>foldRight</code> and <code>foldLeft</code></li>
+<li><code>append</code></li>
+<li><code>reverse</code></li>
+</ul>
+<h3 id="example-map"><a class="header" href="#example-map">Example: map</a></h3>
+<pre><code class="language-java">public static &lt;A, B&gt; List&lt;B&gt; map(List&lt;A&gt; list, Function&lt;A, B&gt; f) {
+    return switch (list) {
+        case List.Nil&lt;A&gt; ignored -&gt; new List.Nil&lt;&gt;();
+        case List.Cons&lt;A&gt; cons   -&gt; new List.Cons&lt;&gt;(f.apply(cons.head()), map(cons.tail(), f));
+    };
+}
+</code></pre>
+<p>Because the ADT is small and total, recursion is exhaustive — covering all possible cases — making missing cases structurally impossible.</p>
+<h2 id="63-folding-as-the-core-abstraction"><a class="header" href="#63-folding-as-the-core-abstraction">6.3 Folding as the Core Abstraction</a></h2>
+<p><code>foldRight</code> expresses the essence of structural recursion:</p>
+<pre><code class="language-java">public static &lt;A, B&gt; B foldRight(List&lt;A&gt; list, B z, BiFunction&lt;A, B, B&gt; f) {
+    return switch (list) {
+        case List.Nil&lt;A&gt; ignored -&gt; z;
+        case List.Cons&lt;A&gt; cons   -&gt; f.apply(cons.head(), foldRight(cons.tail(), z, f));
+    };
+}
+</code></pre>
+<p>Many operations—including <code>map</code>, <code>length</code>, and <code>append</code>—can be implemented via folds.</p>
+<p>This is the “functional data structure lesson”:<br />
+<strong>data type dictates recursion scheme</strong>.</p>
+<h2 id="64-performance-considerations"><a class="header" href="#64-performance-considerations">6.4 Performance Considerations</a></h2>
+<p>Functional lists have:</p>
+<ul>
+<li><strong>O(1)</strong> prepend</li>
+<li><strong>O(n)</strong> append</li>
+<li><strong>O(n)</strong> indexing</li>
+</ul>
+<p>Unlike Java’s <code>LinkedList</code>, our ADT has <em>no hidden machinery</em> and <em>no mutability</em>.
+The tradeoff is intentional: structural clarity over operational tuning.</p>
+<p>In FP languages, lists serve as <em>semantic glue</em>: they appear in interpreters, compilers, symbolic computing, and DSLs.</p>
+<h2 id="65-why-this-matters-for-fp-in-java"><a class="header" href="#65-why-this-matters-for-fp-in-java">6.5 Why This Matters for FP in Java</a></h2>
+<p>Java 21’s sealed types make this pattern much more natural:</p>
+<ul>
+<li>Exhaustive <code>switch</code> becomes safe</li>
+<li>ADTs become explicit instead of accidental</li>
+<li>Recursion is clearer and less error‑prone</li>
+</ul>
+<p>Even so, Java’s pattern-matching remains less expressive than that of Scala, Kotlin, or Haskell, and its type system does not support higher-kinded abstraction.
+Within these constraints, however, the core ideas translate well,
+and the resulting code remains surprisingly <em>clean</em>.</p>
+<hr />
+<p>Next we extend these ideas to <strong>Tree structures</strong> and <strong>structural recursion</strong>, which generalizes the same principles to branching shapes.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-07--tree-and-structural-recursion"><a class="header" href="#chapter-07--tree-and-structural-recursion">Chapter 07 — Tree and Structural Recursion</a></h1>
+<h2 id="71-trees-as-algebraic-data-types"><a class="header" href="#71-trees-as-algebraic-data-types">7.1 Trees as Algebraic Data Types</a></h2>
+<p>A tree is the canonical example of a recursively defined data structure.<br />
+In functional programming, trees allow us to express hierarchical computation, symbolic expressions, and evaluation rules.</p>
+<p>A binary tree can be defined using two constructors:</p>
+<ul>
+<li><strong>Leaf</strong> — holds a single value</li>
+<li><strong>Branch</strong> — holds two subtrees</li>
+</ul>
+<p>This mirrors the inductive definition of a tree and supports structural recursion: computations follow the shape of the data.</p>
+<h2 id="72-defining-a-tree-adt-in-java"><a class="header" href="#72-defining-a-tree-adt-in-java">7.2 Defining a Tree ADT in Java</a></h2>
+<p>With Java 21, we can express this ADT directly:</p>
+<pre><code class="language-java">public sealed interface Tree&lt;A&gt; permits Tree.Leaf, Tree.Branch {
+
+    record Leaf&lt;A&gt;(A value) implements Tree&lt;A&gt; {}
+
+    record Branch&lt;A&gt;(Tree&lt;A&gt; left, Tree&lt;A&gt; right) implements Tree&lt;A&gt; {}
+}
+</code></pre>
+<p>This definition is:</p>
+<ul>
+<li><strong>closed</strong> — sealed, no uncontrolled subclassing</li>
+<li><strong>exhaustive</strong> — pattern matching can cover all variants</li>
+<li><strong>immutable</strong> — records enforce immutability</li>
+<li><strong>structural</strong> — matches the algebraic definition</li>
+</ul>
+<h2 id="73-structural-recursion-on-trees"><a class="header" href="#73-structural-recursion-on-trees">7.3 Structural Recursion on Trees</a></h2>
+<p>Structural recursion is the process of:</p>
+<ol>
+<li>Handling the base case (<strong>Leaf</strong>)</li>
+<li>Recursively processing each subtree (<strong>Branch</strong>)</li>
+</ol>
+<p>Example: computing the size of a tree</p>
+<pre><code class="language-java">public static &lt;A&gt; int size(Tree&lt;A&gt; tree) {
+    return switch (tree) {
+        case Tree.Leaf&lt;A&gt; l -&gt; 1;
+        case Tree.Branch&lt;A&gt; b -&gt; 1 + size(b.left()) + size(b.right());
+    };
+}
+</code></pre>
+<p>A more general form is <strong>fold</strong>, analogous to <code>foldLeft</code> for lists:</p>
+<pre><code class="language-java">public static &lt;A, B&gt; B fold(
+        Tree&lt;A&gt; tree,
+        java.util.function.Function&lt;A, B&gt; leaf,
+        java.util.function.BiFunction&lt;B, B, B&gt; combine
+) {
+    return switch (tree) {
+        case Tree.Leaf&lt;A&gt; l -&gt; leaf.apply(l.value());
+        case Tree.Branch&lt;A&gt; b -&gt; {
+            B left  = fold(b.left(),  leaf, combine);
+            B right = fold(b.right(), leaf, combine);
+            yield combine.apply(left, right);
+        }
+    };
+}
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-java">int sum   = fold(tree, a -&gt; a, (l, r) -&gt; l + r);
+int depth = fold(tree, a -&gt; 1, (l, r) -&gt; 1 + Math.max(l, r));
+boolean containsX = fold(tree, v -&gt; v.equals("x"), (l, r) -&gt; l || r);
+</code></pre>
+<p><code>fold</code> cleanly separates the <em>shape of the data</em> from the <em>logic of computation</em>.</p>
+<h2 id="74-pattern-matching-in-java-21"><a class="header" href="#74-pattern-matching-in-java-21">7.4 Pattern Matching in Java 21</a></h2>
+<p>Java 21’s pattern matching makes Tree manipulation concise:</p>
+<pre><code class="language-java">static &lt;A&gt; boolean contains(Tree&lt;A&gt; t, A target) {
+    return switch (t) {
+        case Tree.Leaf&lt;A&gt; l -&gt; l.value().equals(target);
+        case Tree.Branch&lt;A&gt; b -&gt;
+            contains(b.left(), target) || contains(b.right(), target);
+    };
+}
+</code></pre>
+<p>Though not as expressive as Scala or Haskell, the ergonomics for ADT-style trees are good enough for many practical cases.</p>
+<h2 id="75-fp-trees-vs-the-oop-composite-pattern"><a class="header" href="#75-fp-trees-vs-the-oop-composite-pattern">7.5 FP Trees vs the OOP Composite Pattern</a></h2>
+<p>Traditional Java represents trees using the Composite Pattern:</p>
+<ul>
+<li>abstract base class</li>
+<li>Leaf/Node subclasses</li>
+<li>virtual dispatch</li>
+</ul>
+<p>FP takes a different view:</p>
+<ul>
+<li>data is a closed algebraic structure</li>
+<li>operations are <em>external</em> and total</li>
+<li>pattern matching replaces polymorphic dispatch</li>
+<li>structural recursion replaces visitors</li>
+</ul>
+<p>The result is simpler reasoning, clearer invariants, and better exhaustiveness guarantees.</p>
+<h2 id="76-summary"><a class="header" href="#76-summary">7.6 Summary</a></h2>
+<p>Trees illustrate how <strong>structural recursion</strong> emerges naturally from algebraic data types.<br />
+Java 21’s sealed types and pattern matching make these FP techniques directly accessible.</p>
+<p>This chapter serves as a conceptual bridge to later chapters, where expression trees and Free monads extend this idea toward interpreter and compiler design.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-08--parser-combinator-basics-in-java"><a class="header" href="#chapter-08--parser-combinator-basics-in-java">Chapter 08 — Parser Combinator Basics in Java</a></h1>
+<p>Parser combinators are a powerful demonstration of how far we can go with "just functions" and immutable data.
+In this chapter we build the conceptual foundation: what a parser is, how it becomes a <em>combinator</em>, and why Java 21 is capable of expressing this style without external tools.</p>
+<p>This prepares us for the next chapter, where we turn these ideas into a small but usable parsing library.</p>
+<h2 id="81-why-parser-combinators"><a class="header" href="#81-why-parser-combinators">8.1 Why parser combinators?</a></h2>
+<p>Traditionally, parsers in Java are built using:</p>
+<ul>
+<li>ad-hoc <code>String</code> manipulation,</li>
+<li>regular expressions,</li>
+<li>parser generators (ANTLR, JavaCC, etc.).</li>
+</ul>
+<p>These approaches have drawbacks:</p>
+<ul>
+<li>logic is often <em>implicit</em> (buried in regexes or grammar files),</li>
+<li>refactoring requires tool support,</li>
+<li>compositionality is weak.</li>
+</ul>
+<p>Parser combinators take a different route:</p>
+<ul>
+<li>a <strong>parser is just a function</strong>, wrapped in a convenient type,</li>
+<li>small parsers are combined into larger parsers,</li>
+<li>the resulting parser is an ordinary Java value.</li>
+</ul>
+<p>This fits the overall theme of this book:</p>
+<blockquote>
+<p><strong>Treat behaviour as data. Compose it explicitly. Execute at the boundary.</strong></p>
+</blockquote>
+<h2 id="82-the-core-parser-type"><a class="header" href="#82-the-core-parser-type">8.2 The core parser type</a></h2>
+<p>Conceptually, a parser for values of type <code>A</code> is a function:</p>
+<pre><code class="language-text">Input → Either[Error, (A, Input)]
+</code></pre>
+<p>In our Java code, we model this more concretely as a parser over <code>String</code> plus an index:</p>
+<pre><code class="language-java">// Informal shape (the concrete type lives in fp.combinator.Parser):
+// (String input, int position) -&gt; Either&lt;ParseError, Result&lt;A&gt;&gt;
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>Result&lt;A&gt;</code> holds the parsed value and the next input position,</li>
+<li><code>ParseError</code> describes what went wrong (and later, whether it is recoverable),</li>
+<li><code>Either</code> is our FP-style sum type from earlier chapters.</li>
+</ul>
+<p>The <code>Parser&lt;A&gt;</code> type simply wraps this function together with combinators such as <code>map</code>, <code>flatMap</code>, and <code>orElse</code>.</p>
+<p>The essential idea is:</p>
+<ul>
+<li>a parser consumes a prefix of the input,</li>
+<li>returns a value plus the remaining suffix,</li>
+<li>or fails with a well-typed error.</li>
+</ul>
+<h2 id="83-primitive-parsers"><a class="header" href="#83-primitive-parsers">8.3 Primitive parsers</a></h2>
+<p>Before we can compose parsers, we need a few primitive building blocks. Typical examples are:</p>
+<ul>
+<li><code>char(c)</code> — parse a single expected character,</li>
+<li><code>digit()</code> — parse a decimal digit,</li>
+<li><code>string(s)</code> — parse a fixed string,</li>
+<li><code>eof()</code> — succeed only at the end of input.</li>
+</ul>
+<p>In our Java implementation, these are exposed as static factory methods on <code>Parser</code> or helper classes such as <code>StringParser</code>.</p>
+<p>A schematic example for <code>char(c)</code> looks like this:</p>
+<pre><code class="language-java">public static Parser&lt;Character&gt; ch(char expected) {
+  return (input, pos) -&gt; {
+    if (pos &lt; input.length() &amp;&amp; input.charAt(pos) == expected) {
+      return Either.right(new Result&lt;&gt;(expected, pos + 1));
+    } else {
+      return Either.left(ParseError.unexpectedChar(input, pos, expected));
+    }
+  };
+}
+</code></pre>
+<p>This already exhibits the key pattern:</p>
+<ul>
+<li>read from <code>(input, pos)</code>,</li>
+<li>on success, advance <code>pos</code>,</li>
+<li>on failure, return a structured error without throwing.</li>
+</ul>
+<h2 id="84-from-primitive-parsers-to-combinators"><a class="header" href="#84-from-primitive-parsers-to-combinators">8.4 From primitive parsers to combinators</a></h2>
+<p>A single primitive parser is not very interesting. The power comes from <em>combinators</em>—higher-order functions that take parsers as arguments and return new parsers.</p>
+<p>The two fundamental ones are familiar by now:</p>
+<ul>
+<li><code>map</code> — transform the parsed value,</li>
+<li><code>flatMap</code> — sequence parsers where the second depends on the first.</li>
+</ul>
+<p>Conceptually:</p>
+<pre><code class="language-java">Parser&lt;A&gt; p;
+Function&lt;A, B&gt; f;
+Parser&lt;B&gt; q = p.map(f);
+
+Function&lt;A, Parser&lt;B&gt;&gt; k;
+Parser&lt;B&gt; r = p.flatMap(k);
+</code></pre>
+<p>With these in place, we can write code such as:</p>
+<pre><code class="language-java">Parser&lt;Integer&gt; twoDigits =
+    digit().flatMap(d1 -&gt;
+    digit().map(d2 -&gt;
+        10 * d1 + d2
+    ));
+</code></pre>
+<p>This is structurally similar to the <code>State</code> and <code>Io</code> monads:</p>
+<ul>
+<li><em>input</em> plays the role of the state,</li>
+<li>the parser’s result carries both a value and the new state (input position),</li>
+<li><code>flatMap</code> threads this state automatically.</li>
+</ul>
+<p>In other words:</p>
+<blockquote>
+<p><strong>Parser is a specialised state monad over input streams.</strong></p>
+</blockquote>
+<h2 id="85-choice-and-repetition"><a class="header" href="#85-choice-and-repetition">8.5 Choice and repetition</a></h2>
+<p>To be useful, parsers must be able to express:</p>
+<ul>
+<li>alternatives ("try this parser, or that one"),</li>
+<li>repetition ("zero or more", "one or more").</li>
+</ul>
+<p>We encode these as combinators as well.</p>
+<h3 id="choice"><a class="header" href="#choice">Choice</a></h3>
+<p>Choice tries the first parser; if it fails <em>without consuming input</em>, it tries the second:</p>
+<pre><code class="language-java">Parser&lt;A&gt; or(Parser&lt;A&gt; p, Parser&lt;A&gt; q);
+</code></pre>
+<p>This allows expressions like:</p>
+<pre><code class="language-java">Parser&lt;Character&gt; sign =
+    ch('+').orElse(ch('-'));
+</code></pre>
+<p>Later, we will refine this with the notion of <em>recoverable</em> vs <em>fatal</em> errors, and a <code>commit</code> combinator that fixes the branch. For now, we stay with the simpler, recoverable form of choice.</p>
+<h3 id="repetition"><a class="header" href="#repetition">Repetition</a></h3>
+<p>Repetition combinators build on <code>flatMap</code> and choice:</p>
+<ul>
+<li><code>many(p)</code> — zero or more repetitions of <code>p</code>,</li>
+<li><code>many1(p)</code> — one or more repetitions of <code>p</code>.</li>
+</ul>
+<p>Their implementation follows the typical pattern:</p>
+<pre><code class="language-java">public static &lt;A&gt; Parser&lt;java.util.List&lt;A&gt;&gt; many(Parser&lt;A&gt; p) {
+  return inputStart -&gt; {
+    var out = new java.util.ArrayList&lt;A&gt;();
+    var input = inputStart;
+
+    while (true) {
+      var result = p.parse(input);
+      if (result.isRight()) {
+        var r = result.getRightUnsafe();
+        out.add(r.value());
+        input = r.next();
+      } else {
+        // on the first failure, stop and succeed with what we have
+        return Either.right(new Result&lt;&gt;(out, input));
+      }
+    }
+  };
+}
+</code></pre>
+<p>The exact signature in our code is slightly different (we separate <code>input</code> and <code>position</code>), but the idea is identical.</p>
+<h2 id="86-how-this-feels-in-java-21"><a class="header" href="#86-how-this-feels-in-java-21">8.6 How this feels in Java 21</a></h2>
+<p>Compared to FP-first languages, parser combinators in Java still have some syntactic overhead:</p>
+<ul>
+<li>more explicit types,</li>
+<li>more boilerplate around <code>Either</code> and <code>Result</code>,</li>
+<li>less concise lambda syntax.</li>
+</ul>
+<p>However, Java 21 gives us several advantages that earlier Java versions lacked:</p>
+<ul>
+<li>records make <code>Result</code> and <code>ParseError</code> lightweight and immutable,</li>
+<li>sealed types allow <code>ParseError</code> and ASTs to be closed and exhaustively matched,</li>
+<li>pattern matching in <code>switch</code> improves readability of error handling.</li>
+</ul>
+<p>Crucially, <strong>the core ideas survive translation almost unchanged</strong>:</p>
+<ul>
+<li>parsers are pure values,</li>
+<li>combinators compose them into larger grammars,</li>
+<li>errors are data, not exceptions.</li>
+</ul>
+<p>This chapter has focused on the <em>shape</em> of parser combinators.<br />
+In the next chapter, we will organise these ideas into a minimal reusable library, and address more advanced concerns such as fatal errors, backtracking control, and practical string parsing utilities.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-09--building-a-minimal-parser-library"><a class="header" href="#chapter-09--building-a-minimal-parser-library">Chapter 09 — Building a Minimal Parser Library</a></h1>
+<p>In Chapter 8, we introduced the core idea of parser combinators and demonstrated
+that Java 21 is expressive enough to encode functional parsing patterns:
+<code>map</code>, <code>flatMap</code>, <code>or</code>, structured errors, and chained combinators.</p>
+<p>In this chapter, we turn those building blocks into a <em>small but practical</em>
+parser library. The goal is not to provide a complete parsing framework
+(Parsec, Megaparsec, Cats-parse, etc.) but to show how a carefully chosen set of
+primitives scales into a usable “mini-language” for writing parsers in a purely
+functional style.</p>
+<h2 id="91-goals-of-this-minimal-library"><a class="header" href="#91-goals-of-this-minimal-library">9.1 Goals of This Minimal Library</a></h2>
+<p>A practical parser library must provide:</p>
+<ol>
+<li>
+<p><strong>Compositionality</strong><br />
+Complex parsers are built from smaller ones entirely through algebraic
+operators such as <code>map</code>, <code>flatMap</code>, <code>or</code>, and repetition.</p>
+</li>
+<li>
+<p><strong>Structured errors</strong><br />
+End users should see <em>where</em> and <em>why</em> a parse failed.<br />
+Our <code>Parser.Error&lt;S&gt;</code> type already encodes this.</p>
+</li>
+<li>
+<p><strong>Controlled backtracking</strong><br />
+Some grammars are ambiguous, and naive backtracking leads to exponential
+blow-ups or surprising behaviour.<br />
+Our <code>fatal</code> flag (and the <code>commit()</code> combinator) gives users fine-grained
+control.</p>
+</li>
+<li>
+<p><strong>Deterministic semantics</strong><br />
+Every combinator must obey the “no consumption on failure” rule.
+This guarantees referential transparency and reliable debugging.</p>
+</li>
+<li>
+<p><strong>Readable grammar definitions</strong><br />
+A parser library should allow grammars to be written declaratively, almost as
+if writing the grammar itself.</p>
+</li>
+</ol>
+<p>The <code>Parser</code> and <code>StringParser</code> modules we built earlier already satisfy these
+requirements; we now organise them into a cohesive whole.</p>
+<h2 id="92-finalising-the-core-types"><a class="header" href="#92-finalising-the-core-types">9.2 Finalising the Core Types</a></h2>
+<p>Every parser has type:</p>
+<pre><code class="language-java">(E, S) -&gt; Either&lt;Error&lt;S&gt;, Result&lt;A,S&gt;&gt;
+</code></pre>
+<ul>
+<li><strong>E</strong> — environment (immutable input or configuration)</li>
+<li><strong>S</strong> — state (cursor/index)</li>
+<li><strong>A</strong> — value</li>
+</ul>
+<p>The standard FP interface emerges naturally:</p>
+<h3 id="functor"><a class="header" href="#functor">Functor</a></h3>
+<pre><code class="language-java">map : (A -&gt; B) -&gt; Parser&lt;E,S,A&gt; -&gt; Parser&lt;E,S,B&gt;
+</code></pre>
+<h3 id="monad"><a class="header" href="#monad">Monad</a></h3>
+<pre><code class="language-java">flatMap : (A -&gt; Parser&lt;E,S,B&gt;) -&gt; Parser&lt;E,S,B&gt;
+</code></pre>
+<h3 id="alternative"><a class="header" href="#alternative">Alternative</a></h3>
+<pre><code class="language-java">or : Parser&lt;E,S,A&gt; -&gt; Parser&lt;E,S,A&gt; -&gt; Parser&lt;E,S,A&gt;
+</code></pre>
+<h3 id="committed-parsing"><a class="header" href="#committed-parsing">Committed parsing</a></h3>
+<pre><code class="language-java">commit() : promote all failures to fatal
+</code></pre>
+<p>This small vocabulary is enough to express a surprisingly rich parsing DSL.</p>
+<h2 id="93-why-fatal-is-necessary-in-real-grammars"><a class="header" href="#93-why-fatal-is-necessary-in-real-grammars">9.3 Why <code>fatal</code> Is Necessary in Real Grammars</a></h2>
+<p>Basic toy parsers can rely on implicit backtracking. But real grammars quickly
+run into ambiguity. Consider:</p>
+<pre><code class="language-text">identifier  ::= letter (letter | digit)*
+integer     ::= digit+
+</code></pre>
+<p>Given input:</p>
+<pre><code class="language-text">123abc
+</code></pre>
+<p>Should this be parsed as:</p>
+<ul>
+<li><code>integer = 123</code> followed by <code>identifier = abc</code><br />
+or</li>
+<li><code>identifier = 123abc</code>?</li>
+</ul>
+<p>Different languages choose different resolutions.</p>
+<p>If we implement both branches with naive backtracking:</p>
+<pre><code class="language-java">integer().or(identifier())
+</code></pre>
+<p>the <code>integer()</code> parser will consume <code>1</code>, <code>2</code>, <code>3</code>, then fail at <code>a</code>.<br />
+A naive combinator would then rewind the state and try <code>identifier()</code>.<br />
+However, for many languages this behaviour is <strong>wrong</strong>.</p>
+<p>To express <em>“once I’ve committed to integer, do not backtrack into identifier”</em>,
+we wrap it in:</p>
+<pre><code class="language-java">integer().commit().or(identifier())
+</code></pre>
+<p>Thus <code>fatal</code> is a declarative signal:<br />
+<strong>“This path must not be undone.”</strong></p>
+<p>It upgrades a benign failure into a committed failure.</p>
+<h2 id="94-standard-combinators"><a class="header" href="#94-standard-combinators">9.4 Standard Combinators</a></h2>
+<p><code>StringParser</code> provides a standard suite of combinators:</p>
+<ul>
+<li>
+<p><strong>Primitives</strong><br />
+<code>chr</code>, <code>ch</code>, <code>string</code>, <code>digits</code>, <code>spaces</code></p>
+</li>
+<li>
+<p><strong>Repetition</strong><br />
+<code>many</code>, <code>many1</code></p>
+</li>
+<li>
+<p><strong>Optional</strong><br />
+<code>optional(p, default)</code></p>
+</li>
+<li>
+<p><strong>Delimited</strong><br />
+<code>between(left, p, right)</code></p>
+</li>
+<li>
+<p><strong>Separated lists</strong><br />
+<code>sepBy(p, sep)</code></p>
+</li>
+<li>
+<p><strong>Expression helpers</strong><br />
+<code>chainl1(p, op)</code> — left-associative operator chains</p>
+</li>
+</ul>
+<p>These mirror combinators in mature libraries such as Parsec/Megaparsec.</p>
+<h2 id="95-worked-example-arithmetic-expressions"><a class="header" href="#95-worked-example-arithmetic-expressions">9.5 Worked Example: Arithmetic Expressions</a></h2>
+<p>We now build a parser for arithmetic expressions:</p>
+<pre><code class="language-text">Expr ::= Term (("+" | "-") Term)*
+Term ::= Factor (("*" | "/") Factor)*
+Factor ::= integer | "(" Expr ")"
+</code></pre>
+<h3 id="lexical-helpers"><a class="header" href="#lexical-helpers">Lexical helpers</a></h3>
+<pre><code class="language-java">static final Parser&lt;String,Integer,Character&gt; plus =
+    StringParser.ch('+').map(_c -&gt; (BiFunction&lt;Integer,Integer,Integer&gt;) (x,y) -&gt; x + y);
+
+static final Parser&lt;String,Integer,Character&gt; minus =
+    StringParser.ch('-').map(_c -&gt; (BiFunction&lt;Integer,Integer,Integer&gt;) (x,y) -&gt; x - y);
+
+...
+</code></pre>
+<h3 id="recursive-parser-definition"><a class="header" href="#recursive-parser-definition">Recursive parser definition</a></h3>
+<p>Because Java lambdas are not self-referential, we wrap recursion in a supplier:</p>
+<pre><code class="language-java">Supplier&lt;Parser&lt;String,Integer,Integer&gt;&gt; exprRef = new Supplier&lt;&gt;() {
+  @Override
+  public Parser&lt;String,Integer,Integer&gt; get() { return expr; }
+};
+
+Parser&lt;String,Integer,Integer&gt; factor =
+    StringParser.integer()
+      .or(StringParser.between(StringParser.ch('('), () -&gt; exprRef.get(), StringParser.ch(')')));
+
+Parser&lt;String,Integer,Integer&gt; term =
+    StringParser.chainl1(factor, mulOp.or(divOp));
+
+Parser&lt;String,Integer,Integer&gt; expr =
+    StringParser.chainl1(term, plusOp.or(minusOp));
+</code></pre>
+<p>This demonstrates:</p>
+<ul>
+<li><strong>recursion</strong></li>
+<li><strong>operator precedence</strong></li>
+<li><strong>left associativity</strong></li>
+<li><strong>use of <code>chainl1</code></strong></li>
+</ul>
+<h3 id="running-the-parser"><a class="header" href="#running-the-parser">Running the parser</a></h3>
+<pre><code class="language-java">var r = expr.parse("1 + 2 * (3 + 4)", 0);
+System.out.println(r);
+</code></pre>
+<p>Produces:</p>
+<pre><code class="language-java">Right(Result(15, 13))
+</code></pre>
+<h2 id="96-error-messages-and-ux"><a class="header" href="#96-error-messages-and-ux">9.6 Error Messages and UX</a></h2>
+<p>All parsers eventually produce:</p>
+<pre><code class="language-java">Either&lt;Error&lt;S&gt;, Result&lt;A,S&gt;&gt;
+</code></pre>
+<p>Errors include:</p>
+<ul>
+<li>human-readable message</li>
+<li>unexpected token</li>
+<li>expected token</li>
+<li>position</li>
+<li>whether the error is fatal</li>
+</ul>
+<p>A user can pretty print via:</p>
+<pre><code class="language-java">err.pretty(Object::toString)
+</code></pre>
+<p>Labelled errors help:</p>
+<pre><code class="language-java">expr.label(i -&gt; "at " + i, "expression")
+</code></pre>
+<p>This produces:</p>
+<pre><code class="language-java">expected expression at 5 but expected digit...
+</code></pre>
+<h2 id="97-summary--a-practical-parsing-kernel-in-java"><a class="header" href="#97-summary--a-practical-parsing-kernel-in-java">9.7 Summary — A Practical Parsing Kernel in Java</a></h2>
+<p>In this chapter we transformed a low-level <code>Parser</code> abstraction into a coherent
+miniature library capable of expressing:</p>
+<ul>
+<li>recursion</li>
+<li>sequences and alternatives</li>
+<li>lexical tokenisation</li>
+<li>committed parsing</li>
+<li>operator-precedence grammars</li>
+</ul>
+<p>Java 21’s enhanced pattern matching, records, and sealed types significantly
+improve readability and safety. Although not as concise as Scala or Haskell,
+Java 21 can host a <em>clean, principled</em> parser combinator framework suitable for
+DSLs, interpreters, and educational tools.</p>
+<p>This minimal library also prepares the ground for Chapter 10, where we connect
+parsing to <strong>Free monads</strong>, <strong>AST construction</strong>, and <strong>interpreter design</strong>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-10--free-monad-essentials"><a class="header" href="#chapter-10--free-monad-essentials">Chapter 10 — Free Monad Essentials</a></h1>
+<p>Free monads are often described as “an interpreter construction kit.”<br />
+In the previous chapters we implemented monads directly—<code>Option</code>, <code>Either</code>, <code>Try</code>, <code>State</code>, <code>IO</code>, <code>Reader</code>, and <code>Writer</code>.<br />
+All of them encode <em>a specific effect</em> in their data structure.</p>
+<p>But Free is different.</p>
+<p>Free does <strong>not</strong> encode any effect at all.<br />
+Instead, it encodes <strong>structure</strong>, leaving the <em>meaning</em> of a program to be supplied later by an interpreter.</p>
+<p>This separation—“structure first, semantics later”—is the conceptual heart of FP architecture, compiler pipelines, and DSL design. And remarkably, Java can implement it with a modest amount of code, thanks to sealed interfaces and records — but not without friction. Java’s type system still requires occasional @SuppressWarnings (raw/unchecked), which reflects inherent limitations rather than mistakes in the Free design.</p>
+<h2 id="101-what-is-a-free-monad"><a class="header" href="#101-what-is-a-free-monad">10.1 What Is a Free Monad?</a></h2>
+<p>Intuitively:</p>
+<ul>
+<li>In a normal monad, <code>flatMap</code> <em>executes</em> the next step.</li>
+<li>In a Free monad, <code>flatMap</code> merely <em>builds a tree</em> representing the next step.</li>
+</ul>
+<p>Free transforms any functor <code>F</code> into a monad <code>Free&lt;F, A&gt;</code> without defining the meaning of <code>F</code>.</p>
+<pre><code class="language-text">Functor F  ──(liftF)──▶  Free&lt;F, A&gt; (program description)
+Interpreter ───────────▶  Result (meaning)
+</code></pre>
+<p>In other words:</p>
+<p><strong>Free can be viewed as a universal AST builder for effectful programs.</strong></p>
+<p>It gives you:</p>
+<ul>
+<li>a uniform structure (<code>Pure</code>, <code>Suspend</code>, <code>FlatMapped</code>)</li>
+<li>no commitment to semantics</li>
+<li>multiple interpreters for the same program<br />
+(evaluation, optimization, static analysis, codegen, visualization…)</li>
+</ul>
+<p>This is why Free monads appear in:</p>
+<ul>
+<li>compilers</li>
+<li>interpreters</li>
+<li>algebraic effects</li>
+<li>structured logging</li>
+<li>workflow engines</li>
+<li>data pipelines</li>
+<li>SQL/IR design</li>
+<li>and all “Describe first, interpret later” systems</li>
+</ul>
+<h2 id="102-the-core-data-type"><a class="header" href="#102-the-core-data-type">10.2 The Core Data Type</a></h2>
+<p>Our implementation consists of three constructors:</p>
+<pre><code class="language-java">public sealed interface Free&lt;F, A&gt; permits
+    Free.Pure, Free.Suspend, Free.FlatMapped {
+
+    record Pure&lt;F, A&gt;(A value) implements Free&lt;F, A&gt; {}
+
+    record Suspend&lt;F, A&gt;(F fa) implements Free&lt;F, A&gt; {}
+
+    record FlatMapped&lt;F, A, B&gt;(
+            Free&lt;F, A&gt; sub,
+            Function&lt;A, Free&lt;F, B&gt;&gt; k
+    ) implements Free&lt;F, B&gt; {}
+}
+</code></pre>
+<h3 id="why-these-three"><a class="header" href="#why-these-three">Why these three?</a></h3>
+<ul>
+<li><code>Pure</code> represents a completed computation.</li>
+<li><code>Suspend</code> wraps one step described by the functor <code>F</code>.</li>
+<li><code>FlatMapped</code> captures sequencing: “run <code>sub</code>, then feed the result into <code>k</code>.”</li>
+</ul>
+<p>This is the entire structure of a program written in Free.</p>
+<h2 id="103-building-programs-with-liftf"><a class="header" href="#103-building-programs-with-liftf">10.3 Building Programs with <code>liftF</code></a></h2>
+<p>The essential constructor is:</p>
+<pre><code class="language-java">static &lt;F, A&gt; Free&lt;F, A&gt; liftF(F fa) {
+    return new Suspend&lt;&gt;(fa).flatMap(a -&gt; new Pure&lt;&gt;(a));
+}
+</code></pre>
+<p>This:</p>
+<ol>
+<li>wraps an instruction <code>fa</code> into a suspended node</li>
+<li>ensures the result type remains a proper monad (<code>Free&lt;F, A&gt;</code>)</li>
+</ol>
+<p><code>liftF</code> is how any DSL operation becomes a Free expression.</p>
+<p>For example, in our arithmetic DSL:</p>
+<pre><code class="language-java">Free&lt;ExprF, Integer&gt; expr =
+    AddF.of(lit(1), lit(2)).lift()
+        .flatMap(x -&gt; MulF.of(lit(x), lit(3)).lift());
+</code></pre>
+<p>This is <strong>not executed</strong> yet.<br />
+Only a tree is built.</p>
+<h2 id="104-map-and-flatmap-build-the-ast"><a class="header" href="#104-map-and-flatmap-build-the-ast">10.4 <code>map</code> and <code>flatMap</code> Build the AST</a></h2>
+<p>In normal monads:</p>
+<ul>
+<li><code>map</code> transforms values</li>
+<li><code>flatMap</code> <em>executes</em> the next step</li>
+</ul>
+<p>In Free:</p>
+<ul>
+<li><code>map</code> wraps the continuation</li>
+<li><code>flatMap</code> creates a <strong>new tree node (<code>FlatMapped</code>)</strong></li>
+</ul>
+<p>Thus a program like:</p>
+<pre><code class="language-java">expr.flatMap(f).flatMap(g).flatMap(h)
+</code></pre>
+<p>becomes a right-associated tree:</p>
+<pre><code class="language-java">FlatMapped(
+  sub = expr,
+  k   = x -&gt; FlatMapped(
+            sub = f(x),
+            k   = y -&gt; FlatMapped(
+                       sub = g(y),
+                       k   = h
+                   )
+        )
+)
+</code></pre>
+<p>A future interpreter can traverse and normalize this tree however it wants.</p>
+<h2 id="105-interpreting-free-step-by-step-evaluation"><a class="header" href="#105-interpreting-free-step-by-step-evaluation">10.5 Interpreting Free: Step-by-Step Evaluation</a></h2>
+<p>The interpreter receives:</p>
+<ul>
+<li>a Free program</li>
+<li>an <code>F → A</code> function describing what a single instruction means</li>
+</ul>
+<p>Evaluation is:</p>
+<ol>
+<li>Pattern-match on <code>Pure</code>, <code>Suspend</code>, or <code>FlatMapped</code></li>
+<li>Handle each case</li>
+<li>Perform tail-recursive stepping with a small stack</li>
+</ol>
+<p>Pseudo-logic:</p>
+<pre><code class="language-java">while (true) {
+    switch (node) {
+        case Pure(a) -&gt; return a;
+        case Suspend(fa) -&gt; return interpret(fa);
+        case FlatMapped(sub, k) -&gt; {
+            if (sub is Pure)
+                node = k.apply(sub.value());
+            else if (sub is Suspend)
+                node = k.apply(interpret(sub.fa()));
+            else // sub is FlatMapped
+                node = re-associate to right
+        }
+    }
+}
+</code></pre>
+<p>This evaluator:</p>
+<ul>
+<li>never grows the call stack</li>
+<li>normalizes left-nested binds</li>
+<li>provides predictable evaluation order</li>
+</ul>
+<h2 id="106-why-free-matters-for-dsl-design"><a class="header" href="#106-why-free-matters-for-dsl-design">10.6 Why Free Matters for DSL Design</a></h2>
+<p>Free achieves something extremely valuable:</p>
+<p><strong>The DSL designer defines only syntax.<br />
+The interpreter author defines semantics later.</strong></p>
+<p>Meaning:</p>
+<ul>
+<li>Want evaluation? Implement <code>ExprF → Integer</code>.</li>
+<li>Want optimization? Implement <code>ExprF → ExprF</code>.</li>
+<li>Want code generation? Implement <code>ExprF → String</code>.</li>
+<li>Want type checking? Implement <code>ExprF → Either&lt;TypeError, Type&gt;</code>.</li>
+</ul>
+<p>All from the same Free program.</p>
+<p>This separation is <em>the</em> foundation of compiler design:</p>
+<ul>
+<li>AST → Optimization passes → Codegen</li>
+</ul>
+<p>And Free naturally embodies this pipeline in Java.</p>
+<h2 id="107-when-should-you-use-free"><a class="header" href="#107-when-should-you-use-free">10.7 When Should You Use Free?</a></h2>
+<p>Use Free when:</p>
+<ul>
+<li>You want a DSL whose semantics may change</li>
+<li>You want multiple backends (evaluation, optimization, SQL gen, etc.)</li>
+<li>You want to record the program structure</li>
+<li>You want programs as <em>data</em> instead of executable logic</li>
+</ul>
+<p>Avoid Free when:</p>
+<ul>
+<li>Only one simple effect is needed</li>
+<li>Performance is the primary concern</li>
+<li>You do not need an explicit AST</li>
+</ul>
+<h2 id="108-summary"><a class="header" href="#108-summary">10.8 Summary</a></h2>
+<p>Key points:</p>
+<ol>
+<li>Free builds program structure, not semantics.</li>
+<li><code>Pure</code>, <code>Suspend</code>, and <code>FlatMapped</code> form the entire AST.</li>
+<li><code>liftF</code> embeds DSL instructions into Free.</li>
+<li><code>map</code> and <code>flatMap</code> build trees instead of executing logic.</li>
+<li>Interpreters supply meaning afterward.</li>
+<li>Free is ideal for DSLs, IRs, and compiler-like architectures.</li>
+</ol>
+<p>Chapter 11 will apply these ideas to our Expr DSL.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-11--designing-an-expr-dsl-using-free"><a class="header" href="#chapter-11--designing-an-expr-dsl-using-free">Chapter 11 — Designing an Expr DSL Using Free</a></h1>
+<p>In Chapter 10 we built the conceptual foundation of the Free monad.<br />
+Now we will put that abstraction to work by designing a small arithmetic DSL.<br />
+This chapter demonstrates how Free enables a <em>pure, declarative, and fully interpretable</em> representation of computations — a miniature example of how real‑world compilers and IR pipelines are structured.</p>
+<p>The goal is <strong>not</strong> to build a powerful expression language.<br />
+Instead, it is to show how:</p>
+<ol>
+<li>A DSL is defined using a functor (<code>ExprF</code>)</li>
+<li>DSL instructions are lifted into <code>Free&lt;ExprF, A&gt;</code></li>
+<li>Programs become data structures (ASTs)</li>
+<li>Interpreters and optimizers operate on those structures</li>
+</ol>
+<p>This is the smallest possible version of a compiler pipeline written in Java.</p>
+<h2 id="111-defining-the-expression-functor-exprfa"><a class="header" href="#111-defining-the-expression-functor-exprfa">11.1 Defining the Expression Functor <code>ExprF&lt;A&gt;</code></a></h2>
+<p>The functor <code>ExprF&lt;A&gt;</code> represents <em>one step</em> of computation in our DSL.<br />
+We model four arithmetic operations and a literal:</p>
+<pre><code class="language-java">public sealed interface ExprF&lt;A&gt;
+    permits ConstF, AddF, SubF, MulF, DivF, SumF {
+
+    ExprF&lt;?&gt; map(Function&lt;Object, Object&gt; f);
+}
+</code></pre>
+<p>Each instruction is a simple record:</p>
+<pre><code class="language-java">public record ConstF(Integer value) implements ExprF&lt;Integer&gt; {}
+
+public record AddF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+
+public record SubF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+
+public record MulF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+
+public record DivF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+
+// A variadic node (e.g., addition of many terms)
+public record SumF&lt;A&gt;(List&lt;A&gt; values) implements ExprF&lt;Integer&gt; {}
+</code></pre>
+<p>Each constructor contains <strong>references to subexpressions</strong>, but <em>not interpretations</em>.</p>
+<p>The <code>map</code> method exists only because Free requires <code>ExprF</code> to behave like a functor.<br />
+This method rewrites the child nodes but does <strong>not</strong> evaluate anything.</p>
+<h2 id="112-lifting-instructions-into-free"><a class="header" href="#112-lifting-instructions-into-free">11.2 Lifting Instructions Into Free</a></h2>
+<p>Every DSL instruction must be lifted into a Free program:</p>
+<pre><code class="language-java">static &lt;A&gt; Free&lt;ExprF, A&gt; liftF(ExprF&lt;A&gt; fa) {
+    return Free.liftF(fa);
+}
+</code></pre>
+<p>We then define <em>smart constructors</em> for convenience:</p>
+<pre><code class="language-java">static Free&lt;ExprF, Integer&gt; lit(int n) {
+    return liftF(new ConstF(n));
+}
+
+static Free&lt;ExprF, Integer&gt; add(Free&lt;ExprF, Integer&gt; a,
+                                Free&lt;ExprF, Integer&gt; b) {
+    return a.flatMap(x -&gt; b.flatMap(y -&gt;
+            liftF(new AddF&lt;&gt;(x, y))));
+}
+
+static Free&lt;ExprF, Integer&gt; sum(List&lt;Free&lt;ExprF, Integer&gt;&gt; xs) {
+    return sequence(xs).flatMap(vals -&gt;
+            liftF(new SumF&lt;&gt;(vals)));
+}
+</code></pre>
+<p>These smart constructors do not compute anything.<br />
+They merely <strong>build nodes</strong> in a program tree.</p>
+<h2 id="113-programs-are-now-pure-data-asts"><a class="header" href="#113-programs-are-now-pure-data-asts">11.3 Programs Are Now Pure Data (ASTs)</a></h2>
+<p>A simple program:</p>
+<pre><code class="language-java">var expr =
+    add(lit(1), lit(2))
+        .flatMap(x -&gt; mul(lit(x), lit(3)));
+</code></pre>
+<p>This does <strong>not</strong> run arithmetic.<br />
+It constructs a deeply nested <code>Free&lt;ExprF, Integer&gt;</code> value.<br />
+A future interpreter will decide how this tree should execute.</p>
+<p>Free has now turned program logic into <strong>data</strong>.</p>
+<p>This is the essence of DSL design.</p>
+<h2 id="114-visualizing-the-ast"><a class="header" href="#114-visualizing-the-ast">11.4 Visualizing the AST</a></h2>
+<p>Our previous example desugars into:</p>
+<pre><code class="language-java">FlatMapped(
+  sub = Suspend(AddF(ConstF(1), ConstF(2))),
+  k   = x -&gt; Suspend(MulF(ConstF(x), ConstF(3))))
+</code></pre>
+<p>Free ensures:</p>
+<ul>
+<li>The order of operations is explicit</li>
+<li>The AST is structurally normalized</li>
+<li>No Java-side side‑effects occur during construction</li>
+</ul>
+<p>This is precisely the kind of structure you want before writing an interpreter or optimizer.</p>
+<h2 id="115-building-utility-sequence--traverse"><a class="header" href="#115-building-utility-sequence--traverse">11.5 Building Utility: sequence / traverse</a></h2>
+<p>Many DSLs require combining lists of subcomputations.<br />
+We implement <code>sequence</code> using the Free monad’s own structure:</p>
+<pre><code class="language-java">static &lt;A&gt; Free&lt;ExprF, List&lt;A&gt;&gt; sequence(List&lt;Free&lt;ExprF, A&gt;&gt; xs) {
+    Free&lt;ExprF, List&lt;A&gt;&gt; acc = Free.pure(new ArrayList&lt;&gt;());
+
+    for (var x : xs) {
+        acc = acc.flatMap(list -&gt;
+              x.flatMap(v -&gt; {
+                  list.add(v); // Although this uses a mutable list internally,
+                               // the mutation is not observable
+                               // outside the construction process.
+                  return Free.pure(list);
+              })
+        );
+    }
+    return acc;
+}
+</code></pre>
+<p>This lets us express a variadic <code>SumF</code> node easily.</p>
+<h2 id="116-what-we-have-achieved"><a class="header" href="#116-what-we-have-achieved">11.6 What We Have Achieved</a></h2>
+<p>By defining:</p>
+<ul>
+<li>a <em>functor</em> (<code>ExprF</code>)</li>
+<li>a <em>lifting function</em> (<code>liftF</code>)</li>
+<li><em>smart constructors</em> (e.g., <code>lit</code>, <code>add</code>, <code>sum</code>)</li>
+<li><em>program combinators</em> (<code>flatMap</code>, <code>sequence</code>)</li>
+</ul>
+<p>…we have built a <strong>real DSL</strong> inside Java.</p>
+<p>This DSL:</p>
+<ul>
+<li>captures structure independently of meaning</li>
+<li>builds an AST naturally through monadic composition</li>
+<li>supports multiple interpreters (evaluation, optimization, codegen)</li>
+<li>mirrors compiler architecture on a small scale</li>
+<li>demonstrates the conceptual power of Free monads</li>
+</ul>
+<p>In the next chapter, we provide these interpreters — thereby giving our DSL meaning.</p>
+<h2 id="117-summary"><a class="header" href="#117-summary">11.7 Summary</a></h2>
+<ol>
+<li><code>ExprF&lt;A&gt;</code> defines <em>one step</em> of a computation.</li>
+<li>Free turns these steps into a composable program.</li>
+<li>Smart constructors make DSL usage ergonomic.</li>
+<li>Programs become first‑class data (ASTs).</li>
+<li>This separation of structure and semantics is the core of DSL/IR design.</li>
+</ol>
+<p>Chapter 12 will interpret, optimize, and compile this DSL.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-12--interpretation-optimization-and-code-generation"><a class="header" href="#chapter-12--interpretation-optimization-and-code-generation">Chapter 12 — Interpretation, Optimization, and Code Generation</a></h1>
+<p>In Chapters 10 and 11, we built:</p>
+<ul>
+<li>a functor describing expression syntax (<code>ExprF</code>)</li>
+<li>a Free monad creating programs as ASTs</li>
+<li>a set of smart constructors (<code>const</code>, <code>add</code>, <code>mul</code>, …)</li>
+</ul>
+<p>We now complete the compiler pipeline by giving our DSL <em>meaning</em>.</p>
+<p>This chapter implements:</p>
+<ol>
+<li><strong>Evaluation (Interpreter)</strong></li>
+<li><strong>Optimization (Constant Folding)</strong></li>
+<li><strong>Code Generation (pretty-printing / Java-like source)</strong></li>
+</ol>
+<p>These three phases demonstrate how a Free-based DSL naturally supports<br />
+<strong>multiple semantics without changing the DSL itself</strong>.</p>
+<h2 id="121-revisiting-the-exprf-constructors"><a class="header" href="#121-revisiting-the-exprf-constructors">12.1 Revisiting the ExprF Constructors</a></h2>
+<p>Our expression language now consists of:</p>
+<pre><code class="language-java">public sealed interface ExprF&lt;A&gt;
+    permits ConstF, AddF, SubF, MulF, DivF, SumF {
+    ExprF&lt;?&gt; map(Function&lt;Object,Object&gt; f);
+}
+
+public record ConstF(Integer value) implements ExprF&lt;Integer&gt; {}
+
+public record AddF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+public record SubF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+public record MulF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+public record DivF&lt;A&gt;(A left, A right) implements ExprF&lt;Integer&gt; {}
+
+public record SumF&lt;A&gt;(List&lt;A&gt; values) implements ExprF&lt;Integer&gt; {}
+</code></pre>
+<p>These constructors describe <strong>syntax only</strong>.<br />
+They say nothing about how expressions should be evaluated or optimized.</p>
+<p>This is exactly what makes Free powerful.</p>
+<h2 id="122-interpreter-evaluating-exprf-into-integer"><a class="header" href="#122-interpreter-evaluating-exprf-into-integer">12.2 Interpreter: Evaluating ExprF into Integer</a></h2>
+<pre><code class="language-java">public final class ExprInterpreter {
+
+    public static Integer eval(Free&lt;ExprF, Integer&gt; program) {
+        return step(program);
+    }
+
+    private static Integer step(Free&lt;ExprF, Integer&gt; node) {
+        while (true) {
+            if (node instanceof Free.Pure&lt;ExprF, Integer&gt; p) {
+                return p.value();
+            }
+
+            if (node instanceof Free.Suspend&lt;ExprF, Integer&gt; s) {
+                return evalF(s.fa());
+            }
+
+            if (node instanceof Free.FlatMapped&lt;ExprF, ?, Integer&gt; fm) {
+                var sub = fm.sub();
+                var k = fm.k();
+
+                if (sub instanceof Free.Pure&lt;ExprF, ?&gt; sp)
+                    node = k.apply(sp.value());
+
+                else if (sub instanceof Free.Suspend&lt;ExprF, ?&gt; ss)
+                    node = k.apply(evalF(ss.fa()));
+
+                else if (sub instanceof Free.FlatMapped&lt;ExprF, ?, ?&gt; sfm)
+                    node = sfm.sub().flatMap(
+                        x -&gt; sfm.k().apply(x).flatMap(fm.k())
+                    );
+
+                else
+                    throw new IllegalStateException("Unexpected Free node");
+            }
+        }
+    }
+
+    private static Integer evalF(ExprF&lt;?&gt; f) {
+        return switch (f) {
+            case ConstF c -&gt; c.value();
+            case AddF&lt;?&gt; a -&gt; ((Integer) a.left()) + ((Integer) a.right());
+            case SubF&lt;?&gt; a -&gt; ((Integer) a.left()) - ((Integer) a.right());
+            case MulF&lt;?&gt; a -&gt; ((Integer) a.left()) * ((Integer) a.right());
+            case DivF&lt;?&gt; a -&gt; ((Integer) a.left()) / ((Integer) a.right());
+            case SumF&lt;?&gt; s -&gt; ((List&lt;Integer&gt;) s.values())
+                                .stream().reduce(0, Integer::sum);
+        };
+    }
+}
+</code></pre>
+<h3 id="what-this-shows"><a class="header" href="#what-this-shows">What this shows</a></h3>
+<ul>
+<li>Evaluation semantics are defined <em>after</em> DSL definition.</li>
+<li>DSL programs remain pure data structures.</li>
+<li>Interpreters are replaceable and composable.</li>
+</ul>
+<p>This is exactly the separation found in real-world compilers.</p>
+<h2 id="123-optimization-constant-folding"><a class="header" href="#123-optimization-constant-folding">12.3 Optimization: Constant Folding</a></h2>
+<pre><code class="language-java">public final class ExprOptimizer {
+
+    public static Free&lt;ExprF, Integer&gt; optimize(Free&lt;ExprF, Integer&gt; program) {
+        return program.resume()
+            .fold(
+                ExprOptimizer::optimizeF,
+                Free::pure
+            );
+    }
+
+    private static Free&lt;ExprF, Integer&gt; optimizeF(ExprF&lt;?&gt; f) {
+        return switch (f) {
+            case ConstF c -&gt; Free.pure(c.value());
+
+            case AddF&lt;?&gt; a -&gt; {
+                var l = (Integer) a.left();
+                var r = (Integer) a.right();
+                yield Free.pure(l + r);
+            }
+
+            case MulF&lt;?&gt; m -&gt; {
+                var l = (Integer) m.left();
+                var r = (Integer) m.right();
+                yield Free.pure(l * r);
+            }
+
+            default -&gt; Free.liftF((ExprF&lt;Integer&gt;) f);
+        };
+    }
+}
+</code></pre>
+<h3 id="observations"><a class="header" href="#observations">Observations</a></h3>
+<ul>
+<li>Optimization is purely structural.</li>
+<li>Side-effect–free design makes rewrites trivial.</li>
+<li>More passes can be added without touching the DSL.</li>
+</ul>
+<p>This is how compilers like LLVM organize transform pipelines.</p>
+<h2 id="124-code-generation-turning-exprf-into-a-string"><a class="header" href="#124-code-generation-turning-exprf-into-a-string">12.4 Code Generation: Turning ExprF into a String</a></h2>
+<pre><code class="language-java">public final class ExprCodegen {
+
+    public static String toSource(Free&lt;ExprF, Integer&gt; program) {
+        return render(program);
+    }
+
+    private static String render(Free&lt;ExprF, Integer&gt; node) {
+        if (node instanceof Free.Pure&lt;ExprF, Integer&gt; p)
+            return p.value().toString();
+
+        if (node instanceof Free.Suspend&lt;ExprF, Integer&gt; s)
+            return renderF(s.fa());
+
+        if (node instanceof Free.FlatMapped&lt;ExprF, ?, Integer&gt; fm) {
+            throw new IllegalStateException(
+                "FlatMapped should be normalized before codegen"
+            );
+        }
+
+        throw new IllegalStateException("Unexpected Free node");
+    }
+
+    private static String renderF(ExprF&lt;?&gt; f) {
+        return switch (f) {
+            case ConstF c -&gt; c.value().toString();
+            case AddF&lt;?&gt; a -&gt; "(" + a.left() + " + " + a.right() + ")";
+            case SubF&lt;?&gt; a -&gt; "(" + a.left() + " - " + a.right() + ")";
+            case MulF&lt;?&gt; a -&gt; "(" + a.left() + " * " + a.right() + ")";
+            case DivF&lt;?&gt; a -&gt; "(" + a.left() + " / " + a.right() + ")";
+            case SumF&lt;?&gt; s -&gt;
+                    "(" + String.join(" + ",
+                        ((List&lt;Integer&gt;) s.values())
+                            .stream().map(Object::toString).toList()
+                    ) + ")";
+        };
+    }
+}
+</code></pre>
+<h3 id="highlights"><a class="header" href="#highlights">Highlights</a></h3>
+<ul>
+<li>The backend is replaceable.</li>
+<li>No changes needed in the AST.</li>
+<li>The same DSL can target SQL, JSON, or bytecode-like IR.</li>
+</ul>
+<h2 id="125-example-full-pipeline"><a class="header" href="#125-example-full-pipeline">12.5 Example: Full Pipeline</a></h2>
+<pre><code class="language-java">var expr =
+    add(const_(1), const_(2))
+        .flatMap(x -&gt; mul(const_(x), const_(3)));
+
+System.out.println(ExprInterpreter.eval(expr));
+System.out.println(ExprCodegen.toSource(expr));
+System.out.println(
+    ExprInterpreter.eval(
+        ExprOptimizer.optimize(expr)
+    )
+);
+</code></pre>
+<h3 id="output"><a class="header" href="#output">Output</a></h3>
+<pre><code class="language-text">9
+((1 + 2) * 3)
+9
+</code></pre>
+<h2 id="126-summary"><a class="header" href="#126-summary">12.6 Summary</a></h2>
+<p>This chapter demonstrated the full lifecycle of a Free-based DSL:</p>
+<div class="table-wrapper"><table><thead><tr><th>Phase</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Interpreter</td><td>Evaluate the expression</td></tr>
+<tr><td>Optimization</td><td>Simplify the AST</td></tr>
+<tr><td>Code generation</td><td>Emit textual representation</td></tr>
+</tbody></table>
+</div>
+<p>The key takeaway:</p>
+<blockquote>
+<p><strong>Free allows the DSL’s structure and meaning to evolve independently.</strong></p>
+</blockquote>
+<p>This pattern appears in real compilers, database engines, IR pipelines, and DSL interpreters.</p>
+<h2 id="note-on-javas-type-system"><a class="header" href="#note-on-javas-type-system">Note on Java’s Type System</a></h2>
+<p>The implementation of Free in this chapter necessarily uses <code>@SuppressWarnings({"rawtypes", "unchecked"})</code> in several places.
+This is not a flaw in Free itself, but a direct consequence of a fundamental limitation in Java’s type system:</p>
+<ul>
+<li>Java does not support <em>higher-kinded types (HKT)</em></li>
+<li>therefore, types such as <code>Free&lt;F, A&gt;</code> cannot preserve the shape of <code>A</code> inside nested combinators like <code>flatMap</code></li>
+<li>Java erases the essential type information that Scala or Haskell retain</li>
+</ul>
+<p>Free monads heavily rely on HKTs to express nested computations with accurate typing.
+In Java, we must sacrifice some type precision and manually maintain invariants using casts.</p>
+<p>This chapter keeps the implementation correct and safe, but at the cost of noise.</p>
+<p>Free, Interpreter, Optimizer, and Codegen can be implemented in Java,
+but not without noise: explicit casts, erased type parameters, and
+suppressed warnings are unavoidable due to the absence of higher-kinded types.</p>
+<p>One may choose to ignore this noise and continue in Java for ecosystem
+stability, or embrace a language like Scala where these constructs are
+natural and fully type-safe.
+The choice depends on whether the goal leans more toward <em>engineering pragmatism or language expressiveness</em>.
+Both paths are valid — they simply serve different purposes.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chapter-13--why-fp-matters-beyond-syntax"><a class="header" href="#chapter-13--why-fp-matters-beyond-syntax">Chapter 13 — Why FP Matters Beyond Syntax</a></h1>
+<p>Functional Programming is often introduced through terminology — immutability, monads, purity, recursion.
+But its deepest contribution is conceptual:</p>
+<blockquote>
+<p><strong>Functional Programming is not about syntax — it is about building
+structures in which programs become data, and meaning becomes explicit.</strong></p>
+</blockquote>
+<p>This chapter brings that perspective into focus.</p>
+<h2 id="131-fp-as-a-design-philosophy"><a class="header" href="#131-fp-as-a-design-philosophy">13.1 FP as a Design Philosophy</a></h2>
+<p>FP is often introduced as a collection of patterns — immutability, purity, monads, combinators.</p>
+<p>But the essence is simpler:</p>
+<p><strong>FP forces the programmer to externalize semantics.</strong></p>
+<p>When effects are explicit (IO), when state transitions are modeled as
+values (State), when branching is a data structure rather than a statement
+(Either), the program becomes something that can be:</p>
+<ul>
+<li>analyzed</li>
+<li>interpreted</li>
+<li>optimized</li>
+<li>transformed</li>
+<li>or executed in multiple ways</li>
+</ul>
+<p>This is the core meaning of <em>“Structure Creates Freedom.”</em></p>
+<p>A structured program is <em>more reusable</em>, <em>more testable</em>, and <em>more predictable</em> than one whose semantics are buried inside mutation and side effects.</p>
+<h2 id="132-what-fp-in-java-reveals-about-language-boundaries"><a class="header" href="#132-what-fp-in-java-reveals-about-language-boundaries">13.2 What FP-in-Java Reveals About Language Boundaries</a></h2>
+<p>Attempting FP in Java (even with Java 21 features) is an instructive experiment.</p>
+<p>We learned that:</p>
+<ul>
+<li>Java <em>can</em> represent ADTs (sealed interfaces, records).</li>
+<li>Java <em>can</em> encode the fundamental monads.</li>
+<li>Java <em>can</em> build an interpreter and a Free DSL.</li>
+</ul>
+<p>But:</p>
+<ul>
+<li>higher‑kinded types do not exist</li>
+<li>type inference is minimal</li>
+<li>expressive DSLs require workarounds that Scala or Haskell do not</li>
+</ul>
+<p>This leads to an important conceptual discovery:</p>
+<blockquote>
+<p><strong>Language boundaries are not defined by what you can express,<br />
+but by what you can express <em>without noise</em>.</strong></p>
+</blockquote>
+<p>Java’s boundary is not expressiveness — it is <em>ergonomics</em>.</p>
+<p>The FP core works, but the noise grows as the abstraction level rises.
+Free, DSLs, and optimizers highlight this boundary sharply.</p>
+<h2 id="133-when-programs-become-data"><a class="header" href="#133-when-programs-become-data">13.3 When Programs Become Data</a></h2>
+<p>The culmination of FP techniques is the realization that:</p>
+<blockquote>
+<p><strong>Programs are data, and interpreters are evaluators for those data.</strong></p>
+</blockquote>
+<p>This book’s Expr DSL demonstrated precisely this:</p>
+<ul>
+<li>A program is constructed from ADT nodes.</li>
+<li>Free lifts the nodes into a compositional AST.</li>
+<li>An interpreter consumes the AST and produces a result.</li>
+<li>An optimizer consumes the same AST and produces a <em>new</em> AST.</li>
+<li>A code generator consumes the AST and emits another representation<br />
+(e.g., SQL, bytecode, internal instructions).</li>
+</ul>
+<p>This is not FP for elegance.<br />
+This is FP as the foundation for <strong>compiler design, query engines, agent frameworks.</strong></p>
+<p>Once programs become data:</p>
+<ul>
+<li>we separate <em>what is built</em> from <em>how it is executed</em></li>
+<li>we gain replayability, debuggability, determinism</li>
+<li>we can build optimizers and compilers without changing user code</li>
+<li>we create systems whose behavior can be reasoned about, stored, transmitted, or regenerated</li>
+</ul>
+<p>This is the deepest link between FP and system design.</p>
+<h2 id="134-closing-perspective"><a class="header" href="#134-closing-perspective">13.4 Closing Perspective</a></h2>
+<p>FP in Java was never about stylistic preference.<br />
+It was an investigation:</p>
+<ul>
+<li>What happens when we make semantics explicit?</li>
+<li>What new capabilities arise when effects become values?</li>
+<li>How far can we push the JVM without HKTs?</li>
+<li>At what point do language boundaries matter?</li>
+<li>How does a DSL naturally evolve into a structured, language-neutral form of a program?</li>
+</ul>
+<p>The experiments in this book demonstrate:</p>
+<blockquote>
+<p><strong>FP becomes valuable precisely when programs must be treated as data.</strong></p>
+</blockquote>
+<p>This principle underlies compilers, distributed systems, data processing pipelines, and modern agent frameworks.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ga.js"></script>
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

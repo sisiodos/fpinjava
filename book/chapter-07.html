@@ -1,0 +1,326 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Chapter 07 — Tree and Structural Recursion - Functional Programming in Java</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Functional Programming in Java</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/sisiodos/fpinjava" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="chapter-07--tree-and-structural-recursion"><a class="header" href="#chapter-07--tree-and-structural-recursion">Chapter 07 — Tree and Structural Recursion</a></h1>
+<h2 id="71-trees-as-algebraic-data-types"><a class="header" href="#71-trees-as-algebraic-data-types">7.1 Trees as Algebraic Data Types</a></h2>
+<p>A tree is the canonical example of a recursively defined data structure.<br />
+In functional programming, trees allow us to express hierarchical computation, symbolic expressions, and evaluation rules.</p>
+<p>A binary tree can be defined using two constructors:</p>
+<ul>
+<li><strong>Leaf</strong> — holds a single value</li>
+<li><strong>Branch</strong> — holds two subtrees</li>
+</ul>
+<p>This mirrors the inductive definition of a tree and supports structural recursion: computations follow the shape of the data.</p>
+<h2 id="72-defining-a-tree-adt-in-java"><a class="header" href="#72-defining-a-tree-adt-in-java">7.2 Defining a Tree ADT in Java</a></h2>
+<p>With Java 21, we can express this ADT directly:</p>
+<pre><code class="language-java">public sealed interface Tree&lt;A&gt; permits Tree.Leaf, Tree.Branch {
+
+    record Leaf&lt;A&gt;(A value) implements Tree&lt;A&gt; {}
+
+    record Branch&lt;A&gt;(Tree&lt;A&gt; left, Tree&lt;A&gt; right) implements Tree&lt;A&gt; {}
+}
+</code></pre>
+<p>This definition is:</p>
+<ul>
+<li><strong>closed</strong> — sealed, no uncontrolled subclassing</li>
+<li><strong>exhaustive</strong> — pattern matching can cover all variants</li>
+<li><strong>immutable</strong> — records enforce immutability</li>
+<li><strong>structural</strong> — matches the algebraic definition</li>
+</ul>
+<h2 id="73-structural-recursion-on-trees"><a class="header" href="#73-structural-recursion-on-trees">7.3 Structural Recursion on Trees</a></h2>
+<p>Structural recursion is the process of:</p>
+<ol>
+<li>Handling the base case (<strong>Leaf</strong>)</li>
+<li>Recursively processing each subtree (<strong>Branch</strong>)</li>
+</ol>
+<p>Example: computing the size of a tree</p>
+<pre><code class="language-java">public static &lt;A&gt; int size(Tree&lt;A&gt; tree) {
+    return switch (tree) {
+        case Tree.Leaf&lt;A&gt; l -&gt; 1;
+        case Tree.Branch&lt;A&gt; b -&gt; 1 + size(b.left()) + size(b.right());
+    };
+}
+</code></pre>
+<p>A more general form is <strong>fold</strong>, analogous to <code>foldLeft</code> for lists:</p>
+<pre><code class="language-java">public static &lt;A, B&gt; B fold(
+        Tree&lt;A&gt; tree,
+        java.util.function.Function&lt;A, B&gt; leaf,
+        java.util.function.BiFunction&lt;B, B, B&gt; combine
+) {
+    return switch (tree) {
+        case Tree.Leaf&lt;A&gt; l -&gt; leaf.apply(l.value());
+        case Tree.Branch&lt;A&gt; b -&gt; {
+            B left  = fold(b.left(),  leaf, combine);
+            B right = fold(b.right(), leaf, combine);
+            yield combine.apply(left, right);
+        }
+    };
+}
+</code></pre>
+<p>Examples:</p>
+<pre><code class="language-java">int sum   = fold(tree, a -&gt; a, (l, r) -&gt; l + r);
+int depth = fold(tree, a -&gt; 1, (l, r) -&gt; 1 + Math.max(l, r));
+boolean containsX = fold(tree, v -&gt; v.equals("x"), (l, r) -&gt; l || r);
+</code></pre>
+<p><code>fold</code> cleanly separates the <em>shape of the data</em> from the <em>logic of computation</em>.</p>
+<h2 id="74-pattern-matching-in-java-21"><a class="header" href="#74-pattern-matching-in-java-21">7.4 Pattern Matching in Java 21</a></h2>
+<p>Java 21’s pattern matching makes Tree manipulation concise:</p>
+<pre><code class="language-java">static &lt;A&gt; boolean contains(Tree&lt;A&gt; t, A target) {
+    return switch (t) {
+        case Tree.Leaf&lt;A&gt; l -&gt; l.value().equals(target);
+        case Tree.Branch&lt;A&gt; b -&gt;
+            contains(b.left(), target) || contains(b.right(), target);
+    };
+}
+</code></pre>
+<p>Though not as expressive as Scala or Haskell, the ergonomics for ADT-style trees are good enough for many practical cases.</p>
+<h2 id="75-fp-trees-vs-the-oop-composite-pattern"><a class="header" href="#75-fp-trees-vs-the-oop-composite-pattern">7.5 FP Trees vs the OOP Composite Pattern</a></h2>
+<p>Traditional Java represents trees using the Composite Pattern:</p>
+<ul>
+<li>abstract base class</li>
+<li>Leaf/Node subclasses</li>
+<li>virtual dispatch</li>
+</ul>
+<p>FP takes a different view:</p>
+<ul>
+<li>data is a closed algebraic structure</li>
+<li>operations are <em>external</em> and total</li>
+<li>pattern matching replaces polymorphic dispatch</li>
+<li>structural recursion replaces visitors</li>
+</ul>
+<p>The result is simpler reasoning, clearer invariants, and better exhaustiveness guarantees.</p>
+<h2 id="76-summary"><a class="header" href="#76-summary">7.6 Summary</a></h2>
+<p>Trees illustrate how <strong>structural recursion</strong> emerges naturally from algebraic data types.<br />
+Java 21’s sealed types and pattern matching make these FP techniques directly accessible.</p>
+<p>This chapter serves as a conceptual bridge to later chapters, where expression trees and Free monads extend this idea toward interpreter and compiler design.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="chapter-06.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="chapter-08.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="chapter-06.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="chapter-08.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ga.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
