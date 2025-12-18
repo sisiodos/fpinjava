@@ -1,0 +1,9 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.import.gradle.wrapper.enabled": true,
+    "java.import.gradle.version": "wrapper",
+    "files.watcherExclude": {
+        "**/target": true
+    },
+}
