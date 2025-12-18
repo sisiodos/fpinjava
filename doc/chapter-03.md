@@ -1,4 +1,4 @@
-# Chapter 03 - Option / Either / Try — Algebraic Data Types in a Nominal World
+# Chapter 03 — Option / Either / Try — Algebraic Data Types in a Nominal World
 
 Algebraic Data Types (ADTs) form the basic vocabulary of functional programming.  
 They allow us to _classify_ computations by their possible shapes, and they allow the compiler to enforce these shapes.  

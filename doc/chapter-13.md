@@ -1,4 +1,4 @@
-# 13. Why FP Matters Beyond Syntax
+# Chapter 13 — Why FP Matters Beyond Syntax
 
 Functional Programming is often introduced through terminology — immutability, monads, purity, recursion.
 But its deepest contribution is conceptual:

@@ -1,4 +1,4 @@
-# Chapter 02 - Java 17 vs Java 21 — An FP-Oriented Comparison
+# Chapter 02 — Java 17 vs Java 21 — An FP-Oriented Comparison
 
 Recent versions of Java introduce language features that make the language noticeably more hospitable to functional programming patterns.  
 However, the difference between “possible” and “comfortable” functional programming is significant.  

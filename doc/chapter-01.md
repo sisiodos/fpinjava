@@ -1,4 +1,4 @@
-# Chapter 01 - Introduction
+# Chapter 01 — Introduction
 
 ## Why Study Functional Programming _in Java_?
 

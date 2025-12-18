@@ -1,4 +1,4 @@
-# Chapter 6 — Functional Data Structures: List
+# Chapter 06 — Functional Data Structures: List
 
 In this chapter we introduce _functional data structures_ in their canonical form.
 While Java provides `List`, `ArrayList`, and `LinkedList`, none of these are _functional_:
